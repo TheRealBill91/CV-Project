@@ -1,7 +1,18 @@
-#GeneralInfo {
+.generalInfoForm {
     display: flex;
-    gap: 6px;
+    gap: 27px;
     flex-wrap: wrap;
     width: 70vw;
+    flex-direction: column;
+}
+
+.fullName,
+.email,
+.phoneNumber {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
     outline: 1px solid black;
+    margin-right: 0;
+    flex-direction: column;
 }
