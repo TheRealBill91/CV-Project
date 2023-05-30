@@ -270,9 +270,15 @@ export class GeneralInfoSection extends Component {
     editGeneralInfo() {
         this.setState({
             generalData: {
-                nameInput: this.state.generalDataArr[0],
-                emailInput: this.state.generalDataArr[1],
-                phoneInput: this.state.generalDataArr[2],
+                nameInput: {
+                    name: this.state.generalDataArr[0],
+                },
+                emailInput: {
+                    email: this.state.generalDataArr[1],
+                },
+                phoneInput: {
+                    phoneNum: this.state.generalDataArr[2],
+                },
             },
 
             editMode: true,
@@ -362,7 +368,9 @@ export class EditView extends Component {
                             ></input>
                             <PhoneInputErrorMessage generalInput={generalInput} />
                         </div>
-                        <button style={{ width: "40vw" }} type="submit">Save</button>
+                        <button style={{ width: "40vw" }} type="submit">
+                            Save
+                        </button>
                     </form>
                 </div>
             </>
