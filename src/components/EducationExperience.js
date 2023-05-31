@@ -9,12 +9,12 @@ export class EducationExperienceSection extends Component {
       schoolNameInput: {
         schoolName: "",
         schoolNameError: "",
-        schoolNameValid: true,
+        // schoolNameValid: true,
       },
       titleOfStudyInput: {
         titleOfStudy: "",
         titleOfStudyError: "",
-        titleOfStudyValid: true,
+        // titleOfStudyValid: true,
       },
       dateOfStudyInput: {
         startDate: "",
@@ -39,7 +39,7 @@ export class EducationExperienceSection extends Component {
       schoolNameInput: {
         schoolName: e.target.value,
         schoolNameError: this.state.schoolNameInput.schoolNameError,
-        schoolNameValid: this.state.schoolNameInput.schoolNameValid,
+        // schoolNameValid: this.state.schoolNameInput.schoolNameValid,
       },
       titleOfStudyInput: {
         ...this.state.titleOfStudyInput,
@@ -58,7 +58,7 @@ export class EducationExperienceSection extends Component {
       titleOfStudyInput: {
         titleOfStudy: e.target.value,
         titleOfStudyError: this.state.titleOfStudyInput.titleOfStudyError,
-        titleOfStudyValid: this.state.titleOfStudyInput.titleOfStudyValid,
+        // titleOfStudyValid: this.state.titleOfStudyInput.titleOfStudyValid,
       },
       dateOfStudyInput: {
         ...this.state.dateOfStudyInput,
@@ -77,10 +77,7 @@ export class EducationExperienceSection extends Component {
       dateOfStudyInput: {
         startDate: e.target.value,
         startDateError: this.state.dateOfStudyInput.startDateError,
-        startDateValid: this.state.dateOfStudyInput.startDateValid,
         endDate: this.state.dateOfStudyInput.endDate,
-        endDateError: this.state.dateOfStudyInput.endDateError,
-        endDateValid: this.state.dateOfStudyInput.endDateValid,
       },
     });
   }
@@ -95,22 +92,18 @@ export class EducationExperienceSection extends Component {
       },
       dateOfStudyInput: {
         startDate: this.state.dateOfStudyInput.startDate,
-        startDateError: this.state.dateOfStudyInput.startDateError,
-        startDateValid: this.state.dateOfStudyInput.startDateValid,
         endDate: e.target.value,
-        endDateError: this.state.dateOfStudyInput.endDateError,
-        endDateValid: this.state.dateOfStudyInput.endDateValid,
       },
     });
   }
 
-  validateSchoolName() {
+  /* validateSchoolName() {
     if (this.state.schoolNameInput.schoolName.length <= 0) {
       this.setState((prevState) => ({
         schoolNameInput: {
           schoolName: prevState.schoolNameInput.schoolName,
           schoolNameError: "Please enter your school name",
-          schoolNameValid: false,
+          // schoolNameValid: false,
         },
         titleOfStudyInput: {
           ...prevState.titleOfStudyInput,
@@ -124,7 +117,7 @@ export class EducationExperienceSection extends Component {
         schoolNameInput: {
           schoolName: this.state.schoolNameInput.schoolName,
           schoolNameError: "Please enter a shorter school name",
-          schoolNameValid: false,
+          // schoolNameValid: false,
         },
         titleOfStudyInput: {
           ...this.state.titleOfStudyInput,
@@ -138,7 +131,7 @@ export class EducationExperienceSection extends Component {
         schoolNameInput: {
           schoolName: this.state.schoolNameInput.schoolName,
           schoolNameError: "",
-          schoolNameValid: true,
+          // schoolNameValid: true,
         },
         titleOfStudyInput: {
           ...this.state.titleOfStudyInput,
@@ -201,18 +194,18 @@ export class EducationExperienceSection extends Component {
         };
       });
     }
-  }
+  } */
 
   submitEducationInfo(e) {
     e.preventDefault();
-    this.validateSchoolName();
-    this.validateTitleOfStudy();
+    /*  this.validateSchoolName();
+    this.validateTitleOfStudy(); */
     this.setState((prevState) => {
-      if (!prevState.schoolNameInput.schoolNameValid) {
+      /*  if (!prevState.schoolNameInput.schoolNameValid) {
         return;
       } else if (!prevState.titleOfStudyInput.titleOfStudyValid) {
         return;
-      }
+      } */
       return {
         educationDataArr: this.state.educationDataArr.concat(
           this.state.schoolNameInput.schoolName,
@@ -230,13 +223,13 @@ export class EducationExperienceSection extends Component {
     this.setState({
       schoolNameInput: {
         schoolName: this.state.educationDataArr[0],
-        schoolNameError: "",
-        schoolNameValid: true,
+        /*  schoolNameError: "",
+         schoolNameValid: true, */
       },
       titleOfStudyInput: {
         titleOfStudy: this.state.educationDataArr[1],
-        titleOfStudyError: "",
-        titleOfStudyValid: true,
+        /*  titleOfStudyError: "",
+         titleOfStudyValid: true, */
       },
       dateOfStudyInput: {
         startDate: this.state.educationDataArr[2],
@@ -300,7 +293,7 @@ export class EditView extends Component {
 
     return (
       <>
-        <div>
+        <div style={{ marginBottom: "24px" }}>
           <form
             noValidate
             onSubmit={submitEducationInfo}
@@ -316,7 +309,7 @@ export class EditView extends Component {
                 onChange={handleSchoolNameChange}
                 required
               ></input>
-              <SchoolInputErrorMessage schoolNameInput={schoolNameInput} />
+              {/* <SchoolInputErrorMessage schoolNameInput={schoolNameInput} /> */}
             </div>
 
             <div className="titleOfStudy">
@@ -328,7 +321,7 @@ export class EditView extends Component {
                 value={titleOfStudyInput.titleOfStudy}
                 onChange={handleTitleOfStudyChange}
               ></input>
-              <TitleOfStudyErrorMessage titleOfStudyInput={titleOfStudyInput} />
+              {/*   <TitleOfStudyErrorMessage titleOfStudyInput={titleOfStudyInput} /> */}
             </div>
 
             <div className="startDate">
@@ -352,7 +345,7 @@ export class EditView extends Component {
                 onChange={handleEndDateOfStudy}
               ></input>
             </div>
-            <button style={{ width: "40vw" }} type="submit">
+            <button style={{ width: "70px" }} type="submit">
               Save
             </button>
           </form>
@@ -399,7 +392,7 @@ class ReadView extends Component {
   }
 }
 
-class SchoolInputErrorMessage extends Component {
+/* class SchoolInputErrorMessage extends Component {
   constructor(props) {
     super(props);
   }
@@ -428,3 +421,4 @@ class TitleOfStudyErrorMessage extends Component {
     );
   }
 }
+ */

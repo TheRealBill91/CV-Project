@@ -16,3 +16,17 @@
     margin-right: 0;
     flex-direction: column;
 }
+
+/* Start of education info styles */
+
+.schoolName,
+.titleOfStudy,
+.startDate,
+.endDate {
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    outline: 1px solid black;
+    margin-right: 0;
+    flex-direction: column;
+}

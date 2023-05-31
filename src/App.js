@@ -10,9 +10,17 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
         <FormOverview />
-      </>
+      </div>
     );
   }
 }

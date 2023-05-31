@@ -10,17 +10,17 @@ export class GeneralInfoSection extends Component {
         nameInput: {
           name: "",
           nameError: "",
-          nameInputValid: true,
+          // nameInputValid: true,
         },
         emailInput: {
           email: "",
           emailError: "",
-          emailInputValid: true,
+          // emailInputValid: true,
         },
         phoneInput: {
           phoneNum: "",
           phoneError: "",
-          phoneInputValid: true,
+          // phoneInputValid: true,
         },
 
         id: uniqid(),
@@ -34,9 +34,9 @@ export class GeneralInfoSection extends Component {
     this.handlePhoneNumChange = this.handlePhoneNumChange.bind(this);
     this.submitGeneralInfo = this.submitGeneralInfo.bind(this);
     this.editGeneralInfo = this.editGeneralInfo.bind(this);
-    this.validateNameInput = this.validateNameInput.bind(this);
+    /*  this.validateNameInput = this.validateNameInput.bind(this);
     this.validateEmailInput = this.validateEmailInput.bind(this);
-    this.validatePhoneInput = this.validatePhoneInput.bind(this);
+    this.validatePhoneInput = this.validatePhoneInput.bind(this); */
   }
 
   handleNameChange(e) {
@@ -45,7 +45,7 @@ export class GeneralInfoSection extends Component {
         nameInput: {
           name: e.target.value,
           nameError: this.state.generalData.nameInput.nameError,
-          nameInputValid: this.state.generalData.nameInput.nameInputValid,
+          // nameInputValid: this.state.generalData.nameInput.nameInputValid,
         },
         emailInput: {
           ...this.state.generalData.emailInput,
@@ -66,7 +66,7 @@ export class GeneralInfoSection extends Component {
         emailInput: {
           email: e.target.value,
           emailError: [],
-          emailInputValid: true,
+          // emailInputValid: true,
         },
         phoneInput: {
           ...this.state.generalData.phoneInput,
@@ -87,13 +87,13 @@ export class GeneralInfoSection extends Component {
         phoneInput: {
           phoneNum: e.target.value,
           phoneError: "",
-          phoneInputValid: true,
+          // phoneInputValid: true,
         },
       },
     });
   }
 
-  validateNameInput() {
+  /* validateNameInput() {
     if (this.state.generalData.nameInput.name.length <= 0) {
       console.log("getting to length less than zero");
       console.log(this.state.generalData.nameInput.name);
@@ -269,27 +269,24 @@ export class GeneralInfoSection extends Component {
         },
       }));
     }
-  }
+  } */
 
   submitGeneralInfo(e) {
-    console.log("Before prevent default event");
     e.preventDefault();
-    this.validateNameInput();
+    /*  this.validateNameInput();
     this.validateEmailInput();
-    this.validatePhoneInput();
+    this.validatePhoneInput(); */
 
     this.setState((prevState) => {
-      if (!prevState.generalData.nameInput.nameInputValid) {
+      /*  if (!prevState.generalData.nameInput.nameInputValid) {
         console.log("getting to name input invalid");
         return;
       } else if (!prevState.generalData.emailInput.emailInputValid) {
         return;
       } else if (!prevState.generalData.phoneInput.phoneInputValid) {
         return;
-      }
-      console.log(
-        "Name input valid?" + this.state.generalData.nameInput.nameInputValid
-      );
+      } */
+
       return {
         generalDataArr: this.state.generalDataArr.concat(
           this.state.generalData.nameInput.name,
@@ -300,17 +297,17 @@ export class GeneralInfoSection extends Component {
           nameInput: {
             name: "",
             nameError: "",
-            nameInputValid: true,
+            // nameInputValid: true,
           },
           emailInput: {
             email: "",
             emailError: "",
-            emailInputValid: true,
+            // emailInputValid: true,
           },
           phoneInput: {
             phoneNum: "",
             phoneError: "",
-            phoneInputValid: true,
+            // phoneInputValid: true,
           },
 
           id: uniqid(),
@@ -326,17 +323,17 @@ export class GeneralInfoSection extends Component {
         nameInput: {
           name: this.state.generalDataArr[0],
           nameError: "",
-          nameInputValid: true,
+          // nameInputValid: true,
         },
         emailInput: {
           email: this.state.generalDataArr[1],
           emailError: "",
-          emailInputValid: true,
+          // emailInputValid: true,
         },
         phoneInput: {
           phoneNum: this.state.generalDataArr[2],
           phoneError: "",
-          phoneInputValid: true,
+          // phoneInputValid: true,
         },
       },
       generalDataArr: [],
@@ -385,7 +382,7 @@ export class EditView extends Component {
 
     return (
       <>
-        <div>
+        <div style={{ marginBottom: "24px" }}>
           <form
             noValidate
             onSubmit={submitGeneralInfo}
@@ -399,9 +396,8 @@ export class EditView extends Component {
                 name="fullName"
                 value={generalInput.nameInput.name}
                 onChange={handleNameChange}
-                required
               ></input>
-              <NameInputErrorMessage generalInput={generalInput} />
+              {/* <NameInputErrorMessage generalInput={generalInput} /> */}
             </div>
 
             <div className="email">
@@ -413,7 +409,7 @@ export class EditView extends Component {
                 value={generalInput.emailInput.email}
                 onChange={handleEmailChange}
               ></input>
-              <EmailInputErrorMessage generalInput={generalInput} />
+              {/*  <EmailInputErrorMessage generalInput={generalInput} /> */}
             </div>
 
             <div className="phoneNumber">
@@ -426,9 +422,9 @@ export class EditView extends Component {
                 value={generalInput.phoneInput.phoneNum}
                 onChange={handlePhoneNumChange}
               ></input>
-              <PhoneInputErrorMessage generalInput={generalInput} />
+              {/* <PhoneInputErrorMessage generalInput={generalInput} /> */}
             </div>
-            <button style={{ width: "40vw" }} type="submit">
+            <button style={{ width: "70px" }} type="submit">
               Save
             </button>
           </form>
@@ -470,7 +466,7 @@ class ReadView extends Component {
   }
 }
 
-class NameInputErrorMessage extends Component {
+/* class NameInputErrorMessage extends Component {
   constructor(props) {
     super(props);
   }
@@ -513,4 +509,4 @@ class PhoneInputErrorMessage extends Component {
       </>
     );
   }
-}
+} */
