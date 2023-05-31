@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import uniqid from "uniqid";
+import { parseISO, format } from "date-fns";
 
 export class EducationExperienceSection extends Component {
   constructor(props) {
@@ -32,6 +33,8 @@ export class EducationExperienceSection extends Component {
     this.handleEndDateOfStudy = this.handleEndDateOfStudy.bind(this);
     this.submitEducationInfo = this.submitEducationInfo.bind(this);
     this.editEducationInfo = this.editEducationInfo.bind(this);
+    this.formatStartDate = this.formatStartDate.bind(this);
+    this.formatEndDate = this.formatEndDate.bind(this);
   }
 
   handleSchoolNameChange(e) {
@@ -82,6 +85,16 @@ export class EducationExperienceSection extends Component {
     });
   }
 
+  formatStartDate(educationDataArr) {
+    if (educationDataArr[2] === "") {
+      return educationDataArr[2];
+    } else {
+      const dateObj = parseISO(educationDataArr[2]);
+      const formattedDateObj = format(dateObj, "MM/dd/yyyy");
+      return formattedDateObj;
+    }
+  }
+
   handleEndDateOfStudy(e) {
     this.setState({
       schoolNameInput: {
@@ -95,6 +108,16 @@ export class EducationExperienceSection extends Component {
         endDate: e.target.value,
       },
     });
+  }
+
+  formatEndDate(educationDataArr) {
+    if (educationDataArr[3] === "") {
+      return educationDataArr[3];
+    } else {
+      const dateObj = parseISO(educationDataArr[3]);
+      const formattedDateObj = format(dateObj, "MM/dd/yyyy");
+      return formattedDateObj;
+    }
   }
 
   /* validateSchoolName() {
@@ -268,6 +291,8 @@ export class EducationExperienceSection extends Component {
         <ReadView
           educationDataArr={educationDataArr}
           editEducationInfo={this.editEducationInfo}
+          formatStartDate={this.formatStartDate}
+          formatEndDate={this.formatEndDate}
         ></ReadView>
       );
     }
@@ -361,7 +386,15 @@ class ReadView extends Component {
   }
 
   render() {
-    const { educationDataArr, editEducationInfo } = this.props;
+    const {
+      educationDataArr,
+      editEducationInfo,
+      formatStartDate,
+      formatEndDate,
+    } = this.props;
+
+    const formattedStartDate = formatStartDate(educationDataArr);
+    const formattedEndDate = formatEndDate(educationDataArr);
 
     return (
       <>
@@ -378,12 +411,12 @@ class ReadView extends Component {
 
           <div className="startDate">
             <h3>Start Date</h3>
-            <p>{educationDataArr[2]}</p>
+            <p>{formattedStartDate}</p>
           </div>
 
           <div className="endDate">
             <h3>End Date</h3>
-            <p>{educationDataArr[3]}</p>
+            <p>{formattedEndDate}</p>
           </div>
           <button onClick={editEducationInfo}>Edit</button>
         </div>

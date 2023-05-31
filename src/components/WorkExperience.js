@@ -1,3 +1,4 @@
+import { format, parseISO, formatISO } from "date-fns";
 import React, { Component } from "react";
 import uniqid from "uniqid";
 
@@ -26,6 +27,8 @@ export class WorkInfoSection extends Component {
             this.handleJobDescriptionChange.bind(this);
         this.submitWorkExperienceInfo = this.submitWorkExperienceInfo.bind(this);
         this.editWorkInfo = this.editWorkInfo.bind(this);
+        this.formatStartDate = this.formatStartDate.bind(this);
+        this.formatEndDate = this.formatEndDate.bind(this);
     }
 
     handleCompanyNameChange(e) {
@@ -73,6 +76,16 @@ export class WorkInfoSection extends Component {
         });
     }
 
+    formatStartDate(workDataArr) {
+        if (workDataArr[2] === "") {
+            return workDataArr[2];
+        } else {
+            const dateObj = parseISO(workDataArr[2]);
+            const formattedDateObj = format(dateObj, "MM/dd/yyyy");
+            return formattedDateObj;
+        }
+    }
+
     handleEndDateChange(e) {
         this.setState({
             workExperienceInput: {
@@ -86,6 +99,16 @@ export class WorkInfoSection extends Component {
             workDataArr: this.state.workDataArr,
             editMode: this.state.editMode,
         });
+    }
+
+    formatEndDate(workDataArr) {
+        if (workDataArr[3] === "") {
+            return workDataArr[3];
+        } else {
+            const dateObj = parseISO(workDataArr[3]);
+            const formattedDateObj = format(dateObj, "MM/dd/yyyy");
+            return formattedDateObj;
+        }
     }
 
     handleJobDescriptionChange(e) {
@@ -149,7 +172,12 @@ export class WorkInfoSection extends Component {
             );
         } else if (editMode === false) {
             return (
-                <ReadView workDataArr={workDataArr} editWorkInfo={this.editWorkInfo} />
+                <ReadView
+                    workDataArr={workDataArr}
+                    editWorkInfo={this.editWorkInfo}
+                    formatStartDate={this.formatStartDate}
+                    formatEndDate={this.formatEndDate}
+                />
             );
         }
     }
@@ -245,7 +273,16 @@ class ReadView extends Component {
     }
 
     render() {
-        const { workDataArr, editWorkInfo } = this.props;
+        const {
+            workDataArr,
+            editWorkInfo,
+            workExperienceInput,
+            formatStartDate,
+            formatEndDate,
+        } = this.props;
+
+        const formattedStartDate = formatStartDate(workDataArr);
+        const formattedEndDate = formatEndDate(workDataArr);
 
         return (
             <>
@@ -262,12 +299,12 @@ class ReadView extends Component {
 
                     <div className="startDate">
                         <h3>Start Date</h3>
-                        <p>{workDataArr[2]}</p>
+                        <p>{formattedStartDate}</p>
                     </div>
 
                     <div className="endDate">
                         <h3>End Date</h3>
-                        <p>{workDataArr[3]}</p>
+                        <p>{formattedEndDate}</p>
                     </div>
                     <div className="jobDescription">
                         <h3>Job Description</h3>
