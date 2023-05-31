@@ -16,7 +16,7 @@ export default class App extends Component {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "100vh",
+          minHeight: "100vh",
         }}
       >
         <FormOverview />

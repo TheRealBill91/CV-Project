@@ -297,7 +297,7 @@ export class EditView extends Component {
           <form
             noValidate
             onSubmit={submitEducationInfo}
-            className="generalInfoForm"
+            className="educationExperienceForm"
           >
             <div className="schoolName">
               <label>Enter your school/University Name:</label>
