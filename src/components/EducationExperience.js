@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import uniqid from "uniqid";
 
-class EducationExperienceSection extends Component {
+export class EducationExperienceSection extends Component {
   constructor(props) {
     super(props);
 
@@ -106,10 +106,24 @@ class EducationExperienceSection extends Component {
 
   validateSchoolName() {
     if (this.state.schoolNameInput.schoolName.length <= 0) {
+      this.setState((prevState) => ({
+        schoolNameInput: {
+          schoolName: prevState.schoolNameInput.schoolName,
+          schoolNameError: "Please enter your school name",
+          schoolNameValid: false,
+        },
+        titleOfStudyInput: {
+          ...prevState.titleOfStudyInput,
+        },
+        dateOfStudyInput: {
+          ...prevState.dateOfStudyInput,
+        },
+      }));
+    } else if (this.state.schoolNameInput.schoolName.length >= 26) {
       this.setState({
         schoolNameInput: {
           schoolName: this.state.schoolNameInput.schoolName,
-          schoolNameError: "Please enter your school name",
+          schoolNameError: "Please enter a shorter school name",
           schoolNameValid: false,
         },
         titleOfStudyInput: {
@@ -119,12 +133,12 @@ class EducationExperienceSection extends Component {
           ...this.state.dateOfStudyInput,
         },
       });
-    } else if (this.state.schoolNameInput.schoolName.name.length >= 26) {
+    } else {
       this.setState({
         schoolNameInput: {
           schoolName: this.state.schoolNameInput.schoolName,
-          schoolNameError: "Please enter a shorter school name",
-          schoolNameValid: false,
+          schoolNameError: "",
+          schoolNameValid: true,
         },
         titleOfStudyInput: {
           ...this.state.titleOfStudyInput,
@@ -147,7 +161,7 @@ class EducationExperienceSection extends Component {
             titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
             titleOfStudyError:
               "Please enter the title of your study, you entered nothing",
-            titleOfStudyValid: prevState.titleOfStudyInput.titleOfStudyValid,
+            titleOfStudyValid: false,
           },
           dateOfStudyInput: {
             ...prevState.dateOfStudyInput,
@@ -163,7 +177,23 @@ class EducationExperienceSection extends Component {
           titleOfStudyInput: {
             titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
             titleOfStudyError: "Please enter a shorter title of study",
-            titleOfStudyValid: prevState.titleOfStudyInput.titleOfStudyValid,
+            titleOfStudyValid: false,
+          },
+          dateOfStudyInput: {
+            ...prevState.dateOfStudyInput,
+          },
+        };
+      });
+    } else {
+      this.setState((prevState) => {
+        return {
+          schoolNameInput: {
+            ...prevState.schoolNameInput,
+          },
+          titleOfStudyInput: {
+            titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
+            titleOfStudyError: "",
+            titleOfStudyValid: true,
           },
           dateOfStudyInput: {
             ...prevState.dateOfStudyInput,
@@ -178,18 +208,17 @@ class EducationExperienceSection extends Component {
     this.validateSchoolName();
     this.validateTitleOfStudy();
     this.setState((prevState) => {
-      if (
-        !prevState.schoolNameInput.schoolNameValid ||
-        !prevState.titleOfStudyInput.titleOfStudyValid
-      ) {
+      if (!prevState.schoolNameInput.schoolNameValid) {
+        return;
+      } else if (!prevState.titleOfStudyInput.titleOfStudyValid) {
         return;
       }
       return {
         educationDataArr: this.state.educationDataArr.concat(
           this.state.schoolNameInput.schoolName,
+          this.state.titleOfStudyInput.titleOfStudy,
           this.state.dateOfStudyInput.startDate,
-          this.state.dateOfStudyInput.endDate,
-          this.state.titleOfStudyInput.titleOfStudy
+          this.state.dateOfStudyInput.endDate
         ),
         id: uniqid(),
         editMode: false,
@@ -201,14 +230,21 @@ class EducationExperienceSection extends Component {
     this.setState({
       schoolNameInput: {
         schoolName: this.state.educationDataArr[0],
-      },
-      dateOfStudyInput: {
-        startDate: this.state.educationDataArr[1],
-        endDate: this.state.educationDataArr[2],
+        schoolNameError: "",
+        schoolNameValid: true,
       },
       titleOfStudyInput: {
-        titleOfStudy: this.state.educationDataArr[3],
+        titleOfStudy: this.state.educationDataArr[1],
+        titleOfStudyError: "",
+        titleOfStudyValid: true,
       },
+      dateOfStudyInput: {
+        startDate: this.state.educationDataArr[2],
+        endDate: this.state.educationDataArr[3],
+      },
+
+      educationDataArr: [],
+      editMode: true,
     });
   }
 
@@ -280,7 +316,7 @@ export class EditView extends Component {
                 onChange={handleSchoolNameChange}
                 required
               ></input>
-              <NameInputErrorMessage generalInput={generalInput} />
+              <SchoolInputErrorMessage schoolNameInput={schoolNameInput} />
             </div>
 
             <div className="titleOfStudy">
@@ -292,7 +328,7 @@ export class EditView extends Component {
                 value={titleOfStudyInput.titleOfStudy}
                 onChange={handleTitleOfStudyChange}
               ></input>
-              <EmailInputErrorMessage generalInput={generalInput} />
+              <TitleOfStudyErrorMessage titleOfStudyInput={titleOfStudyInput} />
             </div>
 
             <div className="startDate">
@@ -304,7 +340,6 @@ export class EditView extends Component {
                 value={dateOfStudyInput.startDate}
                 onChange={handleStartDateOfStudy}
               ></input>
-              <PhoneInputErrorMessage generalInput={generalInput} />
             </div>
 
             <div className="endDate">
@@ -316,7 +351,6 @@ export class EditView extends Component {
                 value={dateOfStudyInput.endDate}
                 onChange={handleEndDateOfStudy}
               ></input>
-              <PhoneInputErrorMessage generalInput={generalInput} />
             </div>
             <button style={{ width: "40vw" }} type="submit">
               Save
@@ -340,21 +374,56 @@ class ReadView extends Component {
       <>
         <div>
           <div className="schoolName">
-            <h2>Name</h2>
+            <h2>School Name</h2>
             <p>{educationDataArr[0]}</p>
           </div>
 
           <div className="titleOfStudy">
-            <h3>Email</h3>
-            <p>{generalData[1]}</p>
+            <h3>Title of Study</h3>
+            <p>{educationDataArr[1]}</p>
           </div>
 
-          <div className="phoneNumber">
-            <h3>Phone Number</h3>
-            <p>{generalData[2]}</p>
+          <div className="startDate">
+            <h3>Start Date</h3>
+            <p>{educationDataArr[2]}</p>
           </div>
-          <button onClick={editGeneralInfo}>Edit</button>
+
+          <div className="endDate">
+            <h3>End Date</h3>
+            <p>{educationDataArr[3]}</p>
+          </div>
+          <button onClick={editEducationInfo}>Edit</button>
         </div>
+      </>
+    );
+  }
+}
+
+class SchoolInputErrorMessage extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { schoolNameInput } = this.props;
+    return (
+      <>
+        <span>{schoolNameInput.schoolNameError}</span>
+      </>
+    );
+  }
+}
+
+class TitleOfStudyErrorMessage extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { titleOfStudyInput } = this.props;
+    return (
+      <>
+        <span>{titleOfStudyInput.titleOfStudyError}</span>
       </>
     );
   }
