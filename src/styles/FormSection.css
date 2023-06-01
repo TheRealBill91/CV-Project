@@ -1,52 +1,67 @@
 .generalInfoForm {
-    display: flex;
-    gap: 27px;
-    flex-wrap: wrap;
-    width: 70vw;
-    flex-direction: column;
+  display: flex;
+  gap: 27px;
+  flex-wrap: wrap;
+  width: 70vw;
+  flex-direction: column;
 }
 
 .fullName,
 .email,
 .phoneNumber {
-    display: flex;
-    gap: 10px;
-    width: fit-content;
-    outline: 1px solid black;
-    margin-right: 0;
-    flex-direction: column;
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+  outline: 1px solid black;
+  margin-right: 0;
+  flex-direction: column;
 }
 
 /* Start of education info styles */
 
 .educationExperienceForm {
-    display: flex;
-    gap: 27px;
-    flex-wrap: wrap;
-    width: 70vw;
-    flex-direction: column;
+  display: flex;
+  gap: 27px;
+  flex-wrap: wrap;
+  width: 70vw;
+  flex-direction: column;
 }
 
-.schoolName,
-.titleOfStudy,
-.startDate,
-.endDate {
-    display: flex;
-    gap: 10px;
-    width: fit-content;
-    outline: 1px solid black;
-    margin-right: 0;
-    flex-direction: column;
+ .schoolName,
+ .titleOfStudy,
+ .startDate,
+ .endDate {
+  display: flex;
+  gap: 10px;
+  outline: 1px solid black;
+  margin-right: 0;
+  flex-direction: column;
+}
+
+.readViewEducation {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+  width: 80vw;
+}
+
+.readViewEduationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80vw;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Start of work experience styles */
 
 .workExperienceForm {
-    display: flex;
-    gap: 27px;
-    flex-wrap: wrap;
-    width: 70vw;
-    flex-direction: column;
+  display: flex;
+  gap: 27px;
+  flex-wrap: wrap;
+  width: 70vw;
+  flex-direction: column;
 }
 
 .companyName,
@@ -54,14 +69,13 @@
 .startDate,
 .endDate,
 .jobDescription {
-    display: flex;
-    gap: 10px;
-    width: fit-content;
-    outline: 1px solid black;
-    margin-right: 0;
-    flex-direction: column;
+  display: flex;
+  gap: 10px;
+  outline: 1px solid black;
+  margin-right: 0;
+  flex-direction: column;
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }

@@ -86,10 +86,10 @@ export class EducationExperienceSection extends Component {
   }
 
   formatStartDate(educationDataArr) {
-    if (educationDataArr[2] === "") {
-      return educationDataArr[2];
+    if (educationDataArr[0].startDate === "") {
+      return educationDataArr[0].startDate;
     } else {
-      const dateObj = parseISO(educationDataArr[2]);
+      const dateObj = parseISO(educationDataArr[0].startDate);
       const formattedDateObj = format(dateObj, "MM/dd/yyyy");
       return formattedDateObj;
     }
@@ -111,10 +111,10 @@ export class EducationExperienceSection extends Component {
   }
 
   formatEndDate(educationDataArr) {
-    if (educationDataArr[3] === "") {
-      return educationDataArr[3];
+    if (educationDataArr[0].endDate === "") {
+      return educationDataArr[0].endDate;
     } else {
-      const dateObj = parseISO(educationDataArr[3]);
+      const dateObj = parseISO(educationDataArr[0].endDate);
       const formattedDateObj = format(dateObj, "MM/dd/yyyy");
       return formattedDateObj;
     }
@@ -230,12 +230,13 @@ export class EducationExperienceSection extends Component {
         return;
       } */
       return {
-        educationDataArr: this.state.educationDataArr.concat(
-          this.state.schoolNameInput.schoolName,
-          this.state.titleOfStudyInput.titleOfStudy,
-          this.state.dateOfStudyInput.startDate,
-          this.state.dateOfStudyInput.endDate
-        ),
+        educationDataArr: this.state.educationDataArr.concat({
+          schoolName: this.state.schoolNameInput.schoolName,
+          titleOfStudy: this.state.titleOfStudyInput.titleOfStudy,
+          startDate: this.state.dateOfStudyInput.startDate,
+          endDate: this.state.dateOfStudyInput.endDate,
+          id: uniqid(),
+        }),
         id: uniqid(),
         editMode: false,
       };
@@ -245,18 +246,18 @@ export class EducationExperienceSection extends Component {
   editEducationInfo() {
     this.setState({
       schoolNameInput: {
-        schoolName: this.state.educationDataArr[0],
+        schoolName: this.state.educationDataArr[0].schoolName,
         /*  schoolNameError: "",
          schoolNameValid: true, */
       },
       titleOfStudyInput: {
-        titleOfStudy: this.state.educationDataArr[1],
+        titleOfStudy: this.state.educationDataArr[0].titleOfStudy,
         /*  titleOfStudyError: "",
          titleOfStudyValid: true, */
       },
       dateOfStudyInput: {
-        startDate: this.state.educationDataArr[2],
-        endDate: this.state.educationDataArr[3],
+        startDate: this.state.educationDataArr[0].startDate,
+        endDate: this.state.educationDataArr[0].endDate,
       },
 
       educationDataArr: [],
@@ -398,30 +399,55 @@ class ReadView extends Component {
 
     return (
       <>
-        <div>
-          <div className="schoolName">
-            <h2>School Name</h2>
-            <p>{educationDataArr[0]}</p>
-          </div>
+        <div className="readViewEduationContainer">
+          <addEducationButton educationDataArr={educationDataArr} />
+          <div className="readViewEducation">
+            <div className="schoolName">
+              <h2>School Name</h2>
+              <p>{educationDataArr[0].schoolName}</p>
+            </div>
 
-          <div className="titleOfStudy">
-            <h3>Title of Study</h3>
-            <p>{educationDataArr[1]}</p>
-          </div>
+            <div className="titleOfStudy">
+              <h3>Title of Study</h3>
+              <p>{educationDataArr[0].titleOfStudy}</p>
+            </div>
 
-          <div className="startDate">
-            <h3>Start Date</h3>
-            <p>{formattedStartDate}</p>
-          </div>
+            <div className="startDate">
+              <h3>Start Date</h3>
+              <p>{formattedStartDate}</p>
+            </div>
 
-          <div className="endDate">
-            <h3>End Date</h3>
-            <p>{formattedEndDate}</p>
+            <div className="endDate">
+              <h3>End Date</h3>
+              <p>{formattedEndDate}</p>
+            </div>
           </div>
-          <button onClick={editEducationInfo}>Edit</button>
+          <button style={{ width: "40%" }} onClick={editEducationInfo}>
+            Edit
+          </button>
         </div>
       </>
     );
+  }
+}
+
+class addEducationButton extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { educationDataArr } = this.props;
+
+    if (educationDataArr.length === 0) {
+      return null;
+    } else if (educationDataArr.length !== 0) {
+      return (
+        <>
+          <button>Add more education</button>
+        </>
+      );
+    }
   }
 }
 
