@@ -9,13 +9,9 @@ export class EducationExperienceSection extends Component {
     this.state = {
       schoolNameInput: {
         schoolName: "",
-        schoolNameError: "",
-        // schoolNameValid: true,
       },
       titleOfStudyInput: {
         titleOfStudy: "",
-        titleOfStudyError: "",
-        // titleOfStudyValid: true,
       },
       dateOfStudyInput: {
         startDate: "",
@@ -45,8 +41,6 @@ export class EducationExperienceSection extends Component {
     this.setState({
       schoolNameInput: {
         schoolName: e.target.value,
-        schoolNameError: this.state.schoolNameInput.schoolNameError,
-        // schoolNameValid: this.state.schoolNameInput.schoolNameValid,
       },
       titleOfStudyInput: {
         ...this.state.titleOfStudyInput,
@@ -64,8 +58,6 @@ export class EducationExperienceSection extends Component {
       },
       titleOfStudyInput: {
         titleOfStudy: e.target.value,
-        titleOfStudyError: this.state.titleOfStudyInput.titleOfStudyError,
-        // titleOfStudyValid: this.state.titleOfStudyInput.titleOfStudyValid,
       },
       dateOfStudyInput: {
         ...this.state.dateOfStudyInput,
@@ -83,7 +75,6 @@ export class EducationExperienceSection extends Component {
       },
       dateOfStudyInput: {
         startDate: e.target.value,
-        startDateError: this.state.dateOfStudyInput.startDateError,
         endDate: this.state.dateOfStudyInput.endDate,
       },
     });
@@ -124,115 +115,10 @@ export class EducationExperienceSection extends Component {
     }
   }
 
-  /* validateSchoolName() {
-    if (this.state.schoolNameInput.schoolName.length <= 0) {
-      this.setState((prevState) => ({
-        schoolNameInput: {
-          schoolName: prevState.schoolNameInput.schoolName,
-          schoolNameError: "Please enter your school name",
-          // schoolNameValid: false,
-        },
-        titleOfStudyInput: {
-          ...prevState.titleOfStudyInput,
-        },
-        dateOfStudyInput: {
-          ...prevState.dateOfStudyInput,
-        },
-      }));
-    } else if (this.state.schoolNameInput.schoolName.length >= 26) {
-      this.setState({
-        schoolNameInput: {
-          schoolName: this.state.schoolNameInput.schoolName,
-          schoolNameError: "Please enter a shorter school name",
-          // schoolNameValid: false,
-        },
-        titleOfStudyInput: {
-          ...this.state.titleOfStudyInput,
-        },
-        dateOfStudyInput: {
-          ...this.state.dateOfStudyInput,
-        },
-      });
-    } else {
-      this.setState({
-        schoolNameInput: {
-          schoolName: this.state.schoolNameInput.schoolName,
-          schoolNameError: "",
-          // schoolNameValid: true,
-        },
-        titleOfStudyInput: {
-          ...this.state.titleOfStudyInput,
-        },
-        dateOfStudyInput: {
-          ...this.state.dateOfStudyInput,
-        },
-      });
-    }
-  }
-
-  validateTitleOfStudy() {
-    if (this.state.titleOfStudyInput.titleOfStudy.length <= 0) {
-      this.setState((prevState) => {
-        return {
-          schoolNameInput: {
-            ...prevState.schoolNameInput,
-          },
-          titleOfStudyInput: {
-            titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
-            titleOfStudyError:
-              "Please enter the title of your study, you entered nothing",
-            titleOfStudyValid: false,
-          },
-          dateOfStudyInput: {
-            ...prevState.dateOfStudyInput,
-          },
-        };
-      });
-    } else if (this.state.titleOfStudyInput.titleOfStudy.length >= 22) {
-      this.setState((prevState) => {
-        return {
-          schoolNameInput: {
-            ...prevState.schoolNameInput,
-          },
-          titleOfStudyInput: {
-            titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
-            titleOfStudyError: "Please enter a shorter title of study",
-            titleOfStudyValid: false,
-          },
-          dateOfStudyInput: {
-            ...prevState.dateOfStudyInput,
-          },
-        };
-      });
-    } else {
-      this.setState((prevState) => {
-        return {
-          schoolNameInput: {
-            ...prevState.schoolNameInput,
-          },
-          titleOfStudyInput: {
-            titleOfStudy: prevState.titleOfStudyInput.titleOfStudy,
-            titleOfStudyError: "",
-            titleOfStudyValid: true,
-          },
-          dateOfStudyInput: {
-            ...prevState.dateOfStudyInput,
-          },
-        };
-      });
-    }
-  } */
-
   submitEducationInfo(e) {
     e.preventDefault();
-    /*  this.validateSchoolName();
-    this.validateTitleOfStudy(); */
+
     this.setState((prevState) => {
-      /*  if (!prevState.schoolNameInput.schoolNameValid) {
-        return;
-      } else if (!prevState.titleOfStudyInput.titleOfStudyValid) {
-        return;
-      } */
       return {
         educationDataArr: this.state.educationDataArr.concat({
           schoolName: this.state.schoolNameInput.schoolName,
@@ -270,7 +156,9 @@ export class EducationExperienceSection extends Component {
           return {
             schoolName: this.state.schoolNameInput.schoolName,
             titleOfStudy: this.state.titleOfStudyInput.titleOfStudy,
-            startDate: this.formatStartDate(this.state.dateOfStudyInput.startDate),
+            startDate: this.formatStartDate(
+              this.state.dateOfStudyInput.startDate
+            ),
             endDate: this.formatEndDate(this.state.dateOfStudyInput.endDate),
             id: this.state.id,
           };
@@ -333,13 +221,9 @@ export class EducationExperienceSection extends Component {
     this.setState({
       schoolNameInput: {
         schoolName: targetEducationItem.schoolName,
-        /*  schoolNameError: "",
-         schoolNameValid: true, */
       },
       titleOfStudyInput: {
         titleOfStudy: targetEducationItem.titleOfStudy,
-        /*  titleOfStudyError: "",
-         titleOfStudyValid: true, */
       },
       dateOfStudyInput: {
         startDate: format(parsedStartDate, "yyyy-MM-dd"),
@@ -439,7 +323,6 @@ export class EditView extends Component {
                 onChange={handleSchoolNameChange}
                 required
               ></input>
-              {/* <SchoolInputErrorMessage schoolNameInput={schoolNameInput} /> */}
             </div>
 
             <div className="titleOfStudy">
@@ -451,7 +334,6 @@ export class EditView extends Component {
                 value={titleOfStudyInput.titleOfStudy}
                 onChange={handleTitleOfStudyChange}
               ></input>
-              {/*   <TitleOfStudyErrorMessage titleOfStudyInput={titleOfStudyInput} /> */}
             </div>
 
             <div className="startDate">
@@ -520,7 +402,6 @@ export class SubmitView extends Component {
                 onChange={handleSchoolNameChange}
                 required
               ></input>
-              {/* <SchoolInputErrorMessage schoolNameInput={schoolNameInput} /> */}
             </div>
 
             <div className="titleOfStudy">
@@ -532,7 +413,6 @@ export class SubmitView extends Component {
                 value={titleOfStudyInput.titleOfStudy}
                 onChange={handleTitleOfStudyChange}
               ></input>
-              {/*   <TitleOfStudyErrorMessage titleOfStudyInput={titleOfStudyInput} /> */}
             </div>
 
             <div className="startDate">
@@ -579,9 +459,6 @@ class ReadView extends Component {
       formatEndDate,
       addEducationExperience,
     } = this.props;
-
-    /*   const formattedStartDate = formatStartDate(educationDataArr);
-      const formattedEndDate = formatEndDate(educationDataArr); */
 
     return (
       <>
@@ -642,34 +519,3 @@ class AddEducationButton extends Component {
     }
   }
 }
-
-/* class SchoolInputErrorMessage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { schoolNameInput } = this.props;
-    return (
-      <>
-        <span>{schoolNameInput.schoolNameError}</span>
-      </>
-    );
-  }
-}
-
-class TitleOfStudyErrorMessage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { titleOfStudyInput } = this.props;
-    return (
-      <>
-        <span>{titleOfStudyInput.titleOfStudyError}</span>
-      </>
-    );
-  }
-}
- */

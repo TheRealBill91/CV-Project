@@ -9,18 +9,12 @@ export class GeneralInfoSection extends Component {
       generalData: {
         nameInput: {
           name: "",
-          nameError: "",
-          // nameInputValid: true,
         },
         emailInput: {
           email: "",
-          emailError: "",
-          // emailInputValid: true,
         },
         phoneInput: {
           phoneNum: "",
-          phoneError: "",
-          // phoneInputValid: true,
         },
 
         id: uniqid(),
@@ -34,9 +28,6 @@ export class GeneralInfoSection extends Component {
     this.handlePhoneNumChange = this.handlePhoneNumChange.bind(this);
     this.submitGeneralInfo = this.submitGeneralInfo.bind(this);
     this.editGeneralInfo = this.editGeneralInfo.bind(this);
-    /*  this.validateNameInput = this.validateNameInput.bind(this);
-    this.validateEmailInput = this.validateEmailInput.bind(this);
-    this.validatePhoneInput = this.validatePhoneInput.bind(this); */
   }
 
   handleNameChange(e) {
@@ -44,8 +35,6 @@ export class GeneralInfoSection extends Component {
       generalData: {
         nameInput: {
           name: e.target.value,
-          nameError: this.state.generalData.nameInput.nameError,
-          // nameInputValid: this.state.generalData.nameInput.nameInputValid,
         },
         emailInput: {
           ...this.state.generalData.emailInput,
@@ -65,8 +54,6 @@ export class GeneralInfoSection extends Component {
         },
         emailInput: {
           email: e.target.value,
-          emailError: [],
-          // emailInputValid: true,
         },
         phoneInput: {
           ...this.state.generalData.phoneInput,
@@ -86,207 +73,15 @@ export class GeneralInfoSection extends Component {
         },
         phoneInput: {
           phoneNum: e.target.value,
-          phoneError: "",
-          // phoneInputValid: true,
         },
       },
     });
   }
 
-  /* validateNameInput() {
-    if (this.state.generalData.nameInput.name.length <= 0) {
-      console.log("getting to length less than zero");
-      console.log(this.state.generalData.nameInput.name);
-      this.setState({
-        generalData: {
-          nameInput: {
-            name: this.state.generalData.nameInput.name,
-            nameError: "Please enter your name",
-            nameInputValid: false,
-          },
-          emailInput: {
-            ...this.state.generalData.emailInput,
-          },
-          phoneInput: {
-            ...this.state.generalData.phoneInput,
-          },
-        },
-      });
-    } else if (this.state.generalData.nameInput.name.length >= 26) {
-      this.setState({
-        generalData: {
-          nameInput: {
-            name: this.state.generalData.nameInput.name,
-            nameError: "Please enter a shorter name",
-            nameInputValid: false,
-          },
-          emailInput: {
-            ...this.state.generalData.emailInput,
-          },
-          phoneInput: {
-            ...this.state.generalData.phoneInput,
-          },
-        },
-      });
-    } else {
-      this.setState({
-        generalData: {
-          nameInput: {
-            nameInput: this.state.generalData.nameInput.name,
-            nameError: "",
-            nameInputValid: true,
-          },
-          emailInput: {
-            ...this.state.generalData.emailInput,
-          },
-          phoneInput: {
-            ...this.state.generalData.phoneInput,
-          },
-        },
-      });
-    }
-  }
-
-  validateEmailInput() {
-    if (this.state.generalData.emailInput.email.length <= 0) {
-      this.setState((prevState) => {
-        return {
-          generalData: {
-            nameInput: {
-              ...prevState.generalData.nameInput,
-            },
-            emailInput: {
-              email: prevState.generalData.emailInput.email,
-              emailError: "Email address is required, you entered nothing",
-              emailInputValid: false,
-            },
-            phoneInput: {
-              ...prevState.generalData.phoneInput,
-            },
-          },
-        };
-      });
-    } else if (
-      !this.state.generalData.emailInput.email.match(
-        /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/
-      )
-    ) {
-      this.setState((prevState) => {
-        console.log(
-          "Email length:" + this.state.generalData.emailInput.email.length
-        );
-        return {
-          generalData: {
-            nameInput: {
-              ...prevState.generalData.nameInput,
-            },
-            emailInput: {
-              email: prevState.generalData.emailInput.email,
-              emailError:
-                "Enter an email address in the format of email@example.domain",
-              emailInputValid: false,
-            },
-            phoneInput: {
-              ...prevState.generalData.phoneInput,
-            },
-          },
-        };
-      });
-    } else {
-      this.setState((prevState) => ({
-        generalData: {
-          nameInput: {
-            ...prevState.generalData.nameInput,
-          },
-          emailInput: {
-            email: prevState.generalData.emailInput.email,
-            emailError: "",
-            emailInputValid: true,
-          },
-          phoneInput: {
-            ...prevState.generalData.phoneInput,
-          },
-        },
-      }));
-    }
-  }
-
-  validatePhoneInput() {
-    if (this.state.generalData.phoneInput.phoneNum.length <= 0) {
-      this.setState((prevState) => {
-        return {
-          generalData: {
-            nameInput: {
-              ...prevState.generalData.nameInput,
-            },
-            emailInput: {
-              ...prevState.generalData.emailInput,
-            },
-            phoneInput: {
-              phoneNum: prevState.generalData.phoneInput.phoneNum,
-              phoneError: "Phone number is required, you entered nothing",
-              phoneInputValid: false,
-            },
-          },
-        };
-      });
-    } else if (
-      !this.state.generalData.phoneInput.phoneNum.match(
-        /\(\d{3}\)\s\d{3}-\d{4}/
-      )
-    ) {
-      this.setState((prevState) => {
-        return {
-          generalData: {
-            nameInput: {
-              ...prevState.generalData.nameInput,
-            },
-            emailInput: {
-              ...prevState.generalData.emailInput,
-            },
-            phoneInput: {
-              phoneNum: prevState.generalData.phoneInput.phoneNum,
-              phoneError: "",
-              phoneInputValid: true,
-            },
-          },
-        };
-      });
-    } else {
-      this.setState((prevState) => ({
-        generalData: {
-          nameInput: {
-            ...prevState.generalData.nameInput,
-          },
-          emailInput: {
-            ...prevState.generalData.emailInput,
-          },
-          phoneInput: {
-            phoneNum: prevState.generalData.phoneInput.phoneNum,
-            phoneError: "",
-            phoneInputValid: true,
-          },
-        },
-      }));
-    }
-  } */
-
   submitGeneralInfo(e) {
     e.preventDefault();
-    /*  this.validateNameInput();
-    this.validateEmailInput();
-    this.validatePhoneInput(); */
 
     this.setState((prevState) => {
-      /*  if (!prevState.generalData.nameInput.nameInputValid) {
-        console.log("getting to name input invalid");
-        return;
-      } else if (!prevState.generalData.emailInput.emailInputValid) {
-        return;
-      } else if (!prevState.generalData.phoneInput.phoneInputValid) {
-        return;
-      } */
-
       return {
         generalDataArr: this.state.generalDataArr.concat(
           this.state.generalData.nameInput.name,
@@ -296,18 +91,12 @@ export class GeneralInfoSection extends Component {
         generalData: {
           nameInput: {
             name: "",
-            nameError: "",
-            // nameInputValid: true,
           },
           emailInput: {
             email: "",
-            emailError: "",
-            // emailInputValid: true,
           },
           phoneInput: {
             phoneNum: "",
-            phoneError: "",
-            // phoneInputValid: true,
           },
 
           id: uniqid(),
@@ -323,17 +112,13 @@ export class GeneralInfoSection extends Component {
         nameInput: {
           name: this.state.generalDataArr[0],
           nameError: "",
-          // nameInputValid: true,
         },
         emailInput: {
           email: this.state.generalDataArr[1],
           emailError: "",
-          // emailInputValid: true,
         },
         phoneInput: {
           phoneNum: this.state.generalDataArr[2],
-          phoneError: "",
-          // phoneInputValid: true,
         },
       },
       generalDataArr: [],
@@ -397,7 +182,6 @@ export class EditView extends Component {
                 value={generalInput.nameInput.name}
                 onChange={handleNameChange}
               ></input>
-              {/* <NameInputErrorMessage generalInput={generalInput} /> */}
             </div>
 
             <div className="email">
@@ -409,7 +193,6 @@ export class EditView extends Component {
                 value={generalInput.emailInput.email}
                 onChange={handleEmailChange}
               ></input>
-              {/*  <EmailInputErrorMessage generalInput={generalInput} /> */}
             </div>
 
             <div className="phoneNumber">
@@ -422,7 +205,6 @@ export class EditView extends Component {
                 value={generalInput.phoneInput.phoneNum}
                 onChange={handlePhoneNumChange}
               ></input>
-              {/* <PhoneInputErrorMessage generalInput={generalInput} /> */}
             </div>
             <button style={{ width: "70px" }} type="submit">
               Save
@@ -465,48 +247,3 @@ class ReadView extends Component {
     );
   }
 }
-
-/* class NameInputErrorMessage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { generalInput } = this.props;
-    return (
-      <>
-        <span>{generalInput.nameInput.nameError}</span>
-      </>
-    );
-  }
-}
-
-class EmailInputErrorMessage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { generalInput } = this.props;
-    return (
-      <>
-        <span>{generalInput.emailInput.emailError}</span>
-      </>
-    );
-  }
-}
-
-class PhoneInputErrorMessage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { generalInput } = this.props;
-    return (
-      <>
-        <span>{generalInput.phoneInput.phoneError}</span>
-      </>
-    );
-  }
-} */
