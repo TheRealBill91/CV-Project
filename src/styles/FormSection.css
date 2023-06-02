@@ -27,10 +27,10 @@
   flex-direction: column;
 }
 
- .schoolName,
- .titleOfStudy,
- .startDate,
- .endDate {
+.schoolName,
+.titleOfStudy,
+.startDate,
+.endDate {
   display: flex;
   gap: 10px;
   outline: 1px solid black;
@@ -41,7 +41,7 @@
 .readViewEducation {
   display: grid;
   gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
   width: 80vw;
 }
 
