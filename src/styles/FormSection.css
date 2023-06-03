@@ -76,6 +76,24 @@
   flex-direction: column;
 }
 
+.readViewWorkExperience {}
+
+.readViewWorkContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.readViewValues {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+  width: 80vw;
+}
+
 textarea {
   resize: none;
 }

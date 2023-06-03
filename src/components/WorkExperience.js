@@ -1,4 +1,4 @@
-import { format, parseISO, formatISO } from "date-fns";
+import { format, parseISO, formatISO, parse } from "date-fns";
 import React, { Component } from "react";
 import uniqid from "uniqid";
 
@@ -15,8 +15,10 @@ export class WorkInfoSection extends Component {
                 jobDescription: "",
             },
             id: uniqid(),
+            targetWorkObjID: "",
             workDataArr: [],
-            editMode: true,
+            editMode: false,
+            submitMode: true,
         };
 
         this.handleCompanyNameChange = this.handleCompanyNameChange.bind(this);
@@ -29,6 +31,8 @@ export class WorkInfoSection extends Component {
         this.editWorkInfo = this.editWorkInfo.bind(this);
         this.formatStartDate = this.formatStartDate.bind(this);
         this.formatEndDate = this.formatEndDate.bind(this);
+        this.saveWorkItem = this.saveWorkItem.bind(this);
+        this.addWorkExperience = this.addWorkExperience.bind(this);
     }
 
     handleCompanyNameChange(e) {
@@ -76,11 +80,11 @@ export class WorkInfoSection extends Component {
         });
     }
 
-    formatStartDate(workDataArr) {
-        if (workDataArr[2] === "") {
-            return workDataArr[2];
+    formatStartDate(startDate) {
+        if (startDate === "") {
+            return startDate;
         } else {
-            const dateObj = parseISO(workDataArr[2]);
+            const dateObj = parseISO(startDate);
             const formattedDateObj = format(dateObj, "MM/dd/yyyy");
             return formattedDateObj;
         }
@@ -101,11 +105,11 @@ export class WorkInfoSection extends Component {
         });
     }
 
-    formatEndDate(workDataArr) {
-        if (workDataArr[3] === "") {
-            return workDataArr[3];
+    formatEndDate(endDate) {
+        if (endDate === "") {
+            return endDate;
         } else {
-            const dateObj = parseISO(workDataArr[3]);
+            const dateObj = parseISO(endDate);
             const formattedDateObj = format(dateObj, "MM/dd/yyyy");
             return formattedDateObj;
         }
@@ -129,34 +133,123 @@ export class WorkInfoSection extends Component {
     submitWorkExperienceInfo(e) {
         e.preventDefault();
         this.setState({
-            workDataArr: this.state.workDataArr.concat(
-                this.state.workExperienceInput.companyName,
-                this.state.workExperienceInput.jobTitle,
-                this.state.workExperienceInput.startDate,
-                this.state.workExperienceInput.endDate,
-                this.state.workExperienceInput.jobDescription
-            ),
+            workDataArr: this.state.workDataArr.concat({
+                companyName: this.state.workExperienceInput.companyName,
+                jobTitle: this.state.workExperienceInput.jobTitle,
+                startDate: this.formatStartDate(
+                    this.state.workExperienceInput.startDate
+                ),
+                endDate: this.formatEndDate(this.state.workExperienceInput.endDate),
+                jobDescription: this.state.workExperienceInput.jobDescription,
+                id: this.state.id,
+            }),
+            workExperienceInput: {
+                companyName: "",
+                jobTitle: "",
+                startDate: "",
+                endDate: "",
+                jobDescription: "",
+            },
             id: uniqid(),
-            editMode: false,
+            targetWorkObjID: this.state.targetWorkObjID,
+            editMode: this.state.editMode,
+            submitMode: false,
         });
     }
 
-    editWorkInfo() {
+    saveWorkItem(e) {
+        e.preventDefault();
+        this.setState({
+            workDataArr: this.state.workDataArr.map((item) => {
+                if (item.id === this.state.targetWorkObjID) {
+                    return {
+                        companyName: this.state.workExperienceInput.companyName,
+                        jobTitle: this.state.workExperienceInput.jobTitle,
+                        startDate: this.formatStartDate(
+                            this.state.workExperienceInput.startDate
+                        ),
+                        endDate: this.formatEndDate(this.state.workExperienceInput.endDate),
+                        jobDescription: this.state.workExperienceInput.jobDescription,
+                        id: this.state.id,
+                    };
+                } else {
+                    return item;
+                }
+            }),
+            workExperienceInput: {
+                companyName: "",
+                jobTitle: "",
+                startDate: "",
+                endDate: "",
+                jobDescription: "",
+            },
+            editMode: false,
+            targetWorkObjID: this.state.targetWorkObjID,
+            submitMode: this.state.submitMode,
+        });
+    }
+
+    addWorkExperience() {
         this.setState({
             workExperienceInput: {
-                companyName: this.state.workDataArr[0],
-                jobTitle: this.state.workDataArr[1],
-                startDate: this.state.workDataArr[2],
-                endDate: this.state.workDataArr[3],
-                jobDescription: this.state.workDataArr[4],
+                companyName: this.state.workExperienceInput.companyName,
+                jobTitle: this.state.workExperienceInput.jobTitle,
+                startDate: this.state.workExperienceInput.startDate,
+                endDate: this.state.workExperienceInput.endDate,
+                jobDescription: this.state.workExperienceInput.jobDescription,
             },
-            workDataArr: [],
+            id: uniqid(),
+            targetWorkObjID: this.state.targetWorkObjID,
+            editMode: this.state.editMode,
+            workDataArr: this.state.workDataArr,
+            submitMode: true,
+        });
+    }
+
+    editWorkInfo(workItem) {
+        const targetWorkItem = this.state.workDataArr.find((item) => {
+            return item.id === workItem.id;
+        });
+
+        const parsedStartDate =
+            targetWorkItem.startDate !== ""
+                ? parse(targetWorkItem.startDate, "MM/dd/yyyy", new Date())
+                : targetWorkItem.startDate;
+
+        const startDate =
+            parsedStartDate === ""
+                ? parsedStartDate
+                : format(parsedStartDate, "yyyy-MM-dd");
+
+        const parsedEndDate =
+            targetWorkItem.endDate !== ""
+                ? parse(targetWorkItem.endDate, "MM/dd/yyyy", new Date())
+                : targetWorkItem.endDate;
+
+        const endDate =
+            parsedEndDate === ""
+                ? parsedEndDate
+                : format(parsedEndDate, "yyyy-MM-dd");
+
+        this.setState({
+            workExperienceInput: {
+                companyName: targetWorkItem.companyName,
+                jobTitle: targetWorkItem.jobTitle,
+                startDate: startDate,
+                endDate: endDate,
+                jobDescription: targetWorkItem.jobDescription,
+            },
+            workDataArr: this.state.workDataArr,
+            id: this.state.id,
             editMode: true,
+            submitMode: this.state.submitMode,
+            targetWorkObjID: targetWorkItem.id,
         });
     }
 
     render() {
-        const { workExperienceInput, editMode, workDataArr } = this.state;
+        const { workExperienceInput, editMode, workDataArr, submitMode } =
+            this.state;
 
         if (editMode === true) {
             return (
@@ -167,16 +260,31 @@ export class WorkInfoSection extends Component {
                     handleStartDateChange={this.handleStartDateChange}
                     handleEndDateChange={this.handleEndDateChange}
                     handleJobDescriptionChange={this.handleJobDescriptionChange}
-                    submitWorkExperienceInfo={this.submitWorkExperienceInfo}
+                    saveWorkItem={this.saveWorkItem}
                 />
             );
-        } else if (editMode === false) {
+        } else if (submitMode === true) {
+            return (
+                <SubmitView
+                    workExperienceInput={workExperienceInput}
+                    handleCompanyNameChange={this.handleCompanyNameChange}
+                    handleJobTitleChange={this.handleJobTitleChange}
+                    handleStartDateChange={this.handleStartDateChange}
+                    handleEndDateChange={this.handleEndDateChange}
+                    handleJobDescriptionChange={this.handleJobDescriptionChange}
+                    submitWorkExperienceInfo={this.submitWorkExperienceInfo}
+                ></SubmitView>
+            );
+        }
+
+        if (editMode === false && workDataArr.length !== 0) {
             return (
                 <ReadView
                     workDataArr={workDataArr}
                     editWorkInfo={this.editWorkInfo}
                     formatStartDate={this.formatStartDate}
                     formatEndDate={this.formatEndDate}
+                    addWorkExperience={this.addWorkExperience}
                 />
             );
         }
@@ -184,6 +292,91 @@ export class WorkInfoSection extends Component {
 }
 
 class EditView extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const {
+            workExperienceInput,
+            handleCompanyNameChange,
+            handleJobTitleChange,
+            handleStartDateChange,
+            handleEndDateChange,
+            handleJobDescriptionChange,
+            submitWorkExperienceInfo,
+            saveWorkItem,
+        } = this.props;
+
+        return (
+            <>
+                <div>
+                    <form
+                        noValidate
+                        onSubmit={saveWorkItem}
+                        className="workExperienceForm"
+                    >
+                        <div className="companyName">
+                            <label>Enter the company name</label>
+                            <input
+                                placeholder="Apple"
+                                type="text"
+                                name="companyName"
+                                value={workExperienceInput.companyName}
+                                onChange={handleCompanyNameChange}
+                            ></input>
+                        </div>
+                        <div className="jobTitle">
+                            <label>Enter your job title:</label>
+                            <input
+                                placeholder="Senior Engineer"
+                                type="text"
+                                name="jobTitle"
+                                value={workExperienceInput.jobTitle}
+                                onChange={handleJobTitleChange}
+                            ></input>
+                        </div>
+                        <div className="startDate">
+                            <label>Enter your start Date</label>
+                            <input
+                                type="date"
+                                name="startDate"
+                                value={workExperienceInput.startDate}
+                                onChange={handleStartDateChange}
+                            ></input>
+                        </div>
+                        <div className="endDate">
+                            <label>Enter the end date</label>
+                            <input
+                                type="date"
+                                name="endDate"
+                                value={workExperienceInput.endDate}
+                                onChange={handleEndDateChange}
+                            ></input>
+                        </div>
+                        <div className="jobDescription">
+                            <label>Enter some information about your role</label>
+                            <textarea
+                                name="startDate"
+                                value={workExperienceInput.jobDescription}
+                                onChange={handleJobDescriptionChange}
+                                cols={40}
+                                rows={8}
+                                maxLength={200}
+                                placeholder="Enter some information about what you did in this position"
+                            ></textarea>
+                            <button type="submit" style={{ width: "70px" }}>
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </>
+        );
+    }
+}
+
+class SubmitView extends Component {
     constructor(props) {
         super(props);
     }
@@ -257,7 +450,7 @@ class EditView extends Component {
                                 placeholder="Enter some information about what you did in this position"
                             ></textarea>
                             <button type="submit" style={{ width: "70px" }}>
-                                Save
+                                Submit
                             </button>
                         </div>
                     </form>
@@ -273,46 +466,74 @@ class ReadView extends Component {
     }
 
     render() {
-        const {
-            workDataArr,
-            editWorkInfo,
-            workExperienceInput,
-            formatStartDate,
-            formatEndDate,
-        } = this.props;
-
-        const formattedStartDate = formatStartDate(workDataArr);
-        const formattedEndDate = formatEndDate(workDataArr);
+        const { workDataArr, editWorkInfo, addWorkExperience } = this.props;
 
         return (
             <>
-                <div>
-                    <div className="companyName">
-                        <h2>Company Name</h2>
-                        <p>{workDataArr[0]}</p>
-                    </div>
+                <div className="readViewWorkContainer">
+                    <AddWorkExperienceButton
+                        workDataArr={workDataArr}
+                        addWorkExperience={addWorkExperience}
+                    />
+                    {workDataArr.map((workItem) => (
+                        <div className="readViewWorkExperience" key={workItem.id}>
+                            <div className="readViewValues">
+                                <div className="companyName">
+                                    <h2>Company Name</h2>
+                                    <p>{workItem.companyName}</p>
+                                </div>
 
-                    <div className="jobTitle">
-                        <h3>Job Title</h3>
-                        <p>{workDataArr[1]}</p>
-                    </div>
+                                <div className="jobTitle">
+                                    <h3>Job Title</h3>
+                                    <p>{workItem.jobTitle}</p>
+                                </div>
 
-                    <div className="startDate">
-                        <h3>Start Date</h3>
-                        <p>{formattedStartDate}</p>
-                    </div>
+                                <div className="startDate">
+                                    <h3>Start Date</h3>
+                                    <p>{workItem.startDate}</p>
+                                </div>
 
-                    <div className="endDate">
-                        <h3>End Date</h3>
-                        <p>{formattedEndDate}</p>
-                    </div>
-                    <div className="jobDescription">
-                        <h3>Job Description</h3>
-                        <p>{workDataArr[4]}</p>
-                    </div>
-                    <button onClick={editWorkInfo}>Edit</button>
+                                <div className="endDate">
+                                    <h3>End Date</h3>
+                                    <p>{workItem.endDate}</p>
+                                </div>
+                                <div className="jobDescription">
+                                    <h3>Job Description</h3>
+                                    <p>{workItem.jobDescription}</p>
+                                </div>
+                            </div>
+                            <button
+                                style={{ width: "40px" }}
+                                onClick={() => editWorkInfo(workItem)}
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </>
         );
+    }
+}
+
+class AddWorkExperienceButton extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const { workDataArr, addWorkExperience } = this.props;
+
+        if (workDataArr.length === 0) {
+            return null;
+        } else if (workDataArr.length !== 0) {
+            return (
+                <>
+                    <button onClick={addWorkExperience}>Add work experience</button>
+                </>
+            );
+        }
+
+        return <></>;
     }
 }

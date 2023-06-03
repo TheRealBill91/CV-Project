@@ -18,7 +18,7 @@ export class EducationExperienceSection extends Component {
         endDate: "",
       },
 
-      targetEducationObjID: uniqid(),
+      targetEducationObjID: "",
       id: uniqid(),
       educationDataArr: [],
       editMode: false,
@@ -77,6 +77,11 @@ export class EducationExperienceSection extends Component {
         startDate: e.target.value,
         endDate: this.state.dateOfStudyInput.endDate,
       },
+      targetEducationObjID: this.state.targetEducationObjID,
+      id: this.state.id,
+      educationDataArr: this.state.educationDataArr,
+      editMode: this.state.editMode,
+      submitMode: this.state.submitMode,
     });
   }
 
@@ -127,7 +132,7 @@ export class EducationExperienceSection extends Component {
             this.state.dateOfStudyInput.startDate
           ),
           endDate: this.formatEndDate(this.state.dateOfStudyInput.endDate),
-          id: uniqid(),
+          id: this.state.id,
         }),
         schoolNameInput: {
           schoolName: "",
@@ -139,7 +144,7 @@ export class EducationExperienceSection extends Component {
           startDate: "",
           endDate: "",
         },
-        id: this.state.id,
+        id: uniqid(),
         targetEducationObjID: this.state.targetEducationObjID,
         editMode: this.state.editMode,
         submitMode: false,
@@ -206,17 +211,25 @@ export class EducationExperienceSection extends Component {
       return item.id === educationItem.id;
     });
 
-    const parsedStartDate = parse(
-      targetEducationItem.startDate,
-      "MM/dd/yyyy",
-      new Date()
-    );
+    const parsedStartDate =
+      targetEducationItem.startDate !== ""
+        ? parse(targetEducationItem.startDate, "MM/dd/yyyy", new Date())
+        : targetEducationItem.startDate;
 
-    const parsedEndDate = parse(
-      targetEducationItem.endDate,
-      "MM/dd/yyyy",
-      new Date()
-    );
+    const startDate =
+      parsedStartDate === ""
+        ? parsedStartDate
+        : format(parsedStartDate, "yyyy-MM-dd");
+
+    const parsedEndDate =
+      targetEducationItem.endDate !== ""
+        ? parse(targetEducationItem.endDate, "MM/dd/yyyy", new Date())
+        : targetEducationItem.endDate;
+
+    const endDate =
+      parsedEndDate === ""
+        ? parsedEndDate
+        : format(parsedEndDate, "yyyy-MM-dd");
 
     this.setState({
       schoolNameInput: {
@@ -226,8 +239,8 @@ export class EducationExperienceSection extends Component {
         titleOfStudy: targetEducationItem.titleOfStudy,
       },
       dateOfStudyInput: {
-        startDate: format(parsedStartDate, "yyyy-MM-dd"),
-        endDate: format(parsedEndDate, "yyyy-MM-dd"),
+        startDate: startDate,
+        endDate: endDate,
       },
       id: this.state.id,
       targetEducationObjID: targetEducationItem.id,
@@ -513,7 +526,7 @@ class AddEducationButton extends Component {
     } else if (educationDataArr.length !== 0) {
       return (
         <>
-          <button onClick={addEducationExperience}>Add more education</button>
+          <button onClick={addEducationExperience}>Add education</button>
         </>
       );
     }
