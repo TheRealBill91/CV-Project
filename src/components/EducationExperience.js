@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import uniqid from "uniqid";
 import { parseISO, format, parse } from "date-fns";
+import "../styles/EducationExperience.css"
 
 export class EducationExperienceSection extends Component {
   constructor(props) {

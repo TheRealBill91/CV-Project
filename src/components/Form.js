@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { GeneralInfoSection } from "./GeneralInfo";
 import { EducationExperienceSection } from "./EducationExperience";
 import { WorkInfoSection } from "./WorkExperience";
-import "../styles/FormSection.css";
 
 // Parent component for form
 export class FormOverview extends Component {

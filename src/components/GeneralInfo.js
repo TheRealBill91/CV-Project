@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import uniqid from "uniqid";
+import "../styles/GeneralInfo.css"
 
 export class GeneralInfoSection extends Component {
   constructor(props) {

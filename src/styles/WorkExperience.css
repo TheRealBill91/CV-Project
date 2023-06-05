@@ -1,0 +1,42 @@
+.workExperienceForm {
+  display: flex;
+  gap: 27px;
+  flex-wrap: wrap;
+  width: 70vw;
+  flex-direction: column;
+}
+
+.companyName,
+.jobTitle,
+.startDate,
+.endDate,
+.jobDescription {
+  display: flex;
+  gap: 10px;
+  outline: 1px solid black;
+  margin-right: 0;
+  flex-direction: column;
+}
+
+.readViewWorkExperience {
+}
+
+.readViewWorkContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 80vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.readViewValues {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+  width: 80vw;
+}
+
+textarea {
+  resize: none;
+}

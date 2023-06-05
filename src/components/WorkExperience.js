@@ -1,6 +1,7 @@
 import { format, parseISO, formatISO, parse } from "date-fns";
 import React, { Component } from "react";
 import uniqid from "uniqid";
+import "../styles/WorkExperience.css"
 
 export class WorkInfoSection extends Component {
     constructor(props) {

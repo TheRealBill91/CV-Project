@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./styles/App.css";
+import "normalize.css"
 import { FormOverview } from "./components/Form";
 import uniqid from "uniqid";
 
