@@ -207,8 +207,8 @@ export class EditView extends Component {
                 onChange={handlePhoneNumChange}
               ></input>
             </div>
-            <button style={{ width: "70px" }} type="submit">
-              Save
+            <button className="submitBtn"  type="submit">
+              Submit
             </button>
           </form>
         </div>
@@ -227,7 +227,7 @@ class ReadView extends Component {
 
     return (
       <>
-        <div>
+        <div className="readViewContainer">
           <div className="fullName">
             <h2>Name</h2>
             <p>{generalData[0]}</p>
