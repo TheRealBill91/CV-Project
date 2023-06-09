@@ -18,7 +18,8 @@ export default class App extends Component {
           justifyContent: "center",
           minHeight: "100vh",
           gap: "12px",
-          padding: "24px"
+          padding: "24px",
+          margin: "16px 0px"
         }}
       >
         <FormOverview />

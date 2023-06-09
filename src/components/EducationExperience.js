@@ -450,7 +450,7 @@ export class SubmitView extends Component {
                 onChange={handleEndDateOfStudy}
               ></input>
             </div>
-            <button style={{ width: "70px" }} type="submit">
+            <button className="submitBtn" style={{ width: "70px" }} type="submit">
               Submit
             </button>
           </form>
