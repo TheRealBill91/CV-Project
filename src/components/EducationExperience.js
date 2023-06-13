@@ -1,117 +1,81 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import uniqid from "uniqid";
 import { parseISO, format, parse } from "date-fns";
-import "../styles/EducationExperience.css"
+import "../styles/EducationExperience.css";
 
-export class EducationExperienceSection extends Component {
-  constructor(props) {
-    super(props);
+export const EducationExperienceSection = () => {
+  const [educationData, setEducationData] = useState({
+    schoolNameInput: {
+      schoolName: "",
+    },
+    titleOfStudyInput: {
+      titleOfStudy: "",
+    },
+    dateOfStudyInput: {
+      startDate: "",
+      endDate: "",
+    },
 
-    this.state = {
-      schoolNameInput: {
-        schoolName: "",
-      },
-      titleOfStudyInput: {
-        titleOfStudy: "",
-      },
-      dateOfStudyInput: {
-        startDate: "",
-        endDate: "",
-      },
+    currentlyEditingExperienceID: "",
+    educationExperienceID: uniqid(),
+  });
 
-      targetEducationObjID: "",
-      id: uniqid(),
-      educationDataArr: [],
-      editMode: false,
-      submitMode: true,
-    };
+  const [educationDataArr, setEducationDataArr] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [submitMode, setSubmitMode] = useState(true);
 
-    this.handleSchoolNameChange = this.handleSchoolNameChange.bind(this);
-    this.handleTitleOfStudyChange = this.handleTitleOfStudyChange.bind(this);
-    this.handleStartDateOfStudy = this.handleStartDateOfStudy.bind(this);
-    this.handleEndDateOfStudy = this.handleEndDateOfStudy.bind(this);
-    this.submitEducationInfo = this.submitEducationInfo.bind(this);
-    this.editEducationInfo = this.editEducationInfo.bind(this);
-    this.formatStartDate = this.formatStartDate.bind(this);
-    this.formatEndDate = this.formatEndDate.bind(this);
-    this.addEducationExperience = this.addEducationExperience.bind(this);
-    this.saveEducationItem = this.saveEducationItem.bind(this);
-  }
-
-  handleSchoolNameChange(e) {
-    this.setState({
+  const handleSchoolNameChange = (e) => {
+    setEducationData({
+      ...educationData,
       schoolNameInput: {
         schoolName: e.target.value,
       },
-      titleOfStudyInput: {
-        ...this.state.titleOfStudyInput,
-      },
-      dateOfStudyInput: {
-        ...this.state.dateOfStudyInput,
-      },
     });
-  }
+  };
 
-  handleTitleOfStudyChange(e) {
-    this.setState({
-      schoolNameInput: {
-        ...this.state.schoolNameInput,
-      },
+  const handleTitleOfStudyChange = (e) => {
+    setEducationData({
+      ...educationData,
       titleOfStudyInput: {
         titleOfStudy: e.target.value,
       },
-      dateOfStudyInput: {
-        ...this.state.dateOfStudyInput,
-      },
     });
-  }
+  };
 
-  handleStartDateOfStudy(e) {
-    this.setState({
-      schoolNameInput: {
-        ...this.state.schoolNameInput,
-      },
-      titleOfStudyInput: {
-        ...this.state.titleOfStudyInput,
-      },
+  const handleStartDateOfStudy = (e) => {
+    setEducationData({
+      ...educationData,
       dateOfStudyInput: {
         startDate: e.target.value,
-        endDate: this.state.dateOfStudyInput.endDate,
+        endDate: educationData.dateOfStudyInput.endDate,
       },
-      targetEducationObjID: this.state.targetEducationObjID,
-      id: this.state.id,
-      educationDataArr: this.state.educationDataArr,
-      editMode: this.state.editMode,
-      submitMode: this.state.submitMode,
     });
-  }
+  };
 
-  formatStartDate(startDate) {
+  const formatStartDate = (startDate) => {
+    console.log(startDate);
     if (startDate === "") {
       return startDate;
     } else {
       const dateObj = parseISO(startDate);
       const formattedDateObj = format(dateObj, "MM/dd/yyyy");
+      console.log(formattedDateObj);
+
       return formattedDateObj;
     }
-  }
+  };
 
-  handleEndDateOfStudy(e) {
-    this.setState({
-      schoolNameInput: {
-        ...this.state.schoolNameInput,
-      },
-      titleOfStudyInput: {
-        ...this.state.titleOfStudyInput,
-      },
+  const handleEndDateOfStudy = (e) => {
+    setEducationData({
+      ...educationData,
       dateOfStudyInput: {
-        startDate: this.state.dateOfStudyInput.startDate,
+        startDate: educationData.dateOfStudyInput.startDate,
         endDate: e.target.value,
       },
     });
-  }
+  };
 
-  formatEndDate(endDate) {
+  const formatEndDate = (endDate) => {
     if (endDate === "") {
       return endDate;
     } else {
@@ -119,59 +83,27 @@ export class EducationExperienceSection extends Component {
       const formattedDateObj = format(dateObj, "MM/dd/yyyy");
       return formattedDateObj;
     }
-  }
+  };
 
-  submitEducationInfo(e) {
+  const submitEducationInfo = (e) => {
     e.preventDefault();
+    const formattedStartDate = formatStartDate(
+      educationData.dateOfStudyInput.startDate
+    );
+    const formattedEndDate = formatEndDate(
+      educationData.dateOfStudyInput.endDate
+    );
 
-    this.setState((prevState) => {
-      return {
-        educationDataArr: this.state.educationDataArr.concat({
-          schoolName: this.state.schoolNameInput.schoolName,
-          titleOfStudy: this.state.titleOfStudyInput.titleOfStudy,
-          startDate: this.formatStartDate(
-            this.state.dateOfStudyInput.startDate
-          ),
-          endDate: this.formatEndDate(this.state.dateOfStudyInput.endDate),
-          id: this.state.id,
-        }),
-        schoolNameInput: {
-          schoolName: "",
-        },
-        titleOfStudyInput: {
-          titleOfStudy: "",
-        },
-        dateOfStudyInput: {
-          startDate: "",
-          endDate: "",
-        },
-        id: uniqid(),
-        targetEducationObjID: this.state.targetEducationObjID,
-        editMode: this.state.editMode,
-        submitMode: false,
-      };
-    });
-  }
+    setEducationDataArr([
+      ...educationDataArr,
+      {
+        ...educationData,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+      },
+    ]);
 
-  saveEducationItem(e) {
-    e.preventDefault();
-    this.setState({
-      id: uniqid(),
-      educationDataArr: this.state.educationDataArr.map((item) => {
-        if (item.id === this.state.targetEducationObjID) {
-          return {
-            schoolName: this.state.schoolNameInput.schoolName,
-            titleOfStudy: this.state.titleOfStudyInput.titleOfStudy,
-            startDate: this.formatStartDate(
-              this.state.dateOfStudyInput.startDate
-            ),
-            endDate: this.formatEndDate(this.state.dateOfStudyInput.endDate),
-            id: this.state.id,
-          };
-        } else {
-          return item;
-        }
-      }),
+    setEducationData({
       schoolNameInput: {
         schoolName: "",
       },
@@ -182,34 +114,65 @@ export class EducationExperienceSection extends Component {
         startDate: "",
         endDate: "",
       },
-      editMode: false,
-      targetEducationObjID: this.state.targetEducationObjID,
-      submitMode: this.state.submitMode,
+      educationExperienceID: uniqid(),
+      currentlyEditingExperienceID: educationData.currentlyEditingExperienceID,
     });
-  }
 
-  addEducationExperience() {
-    this.setState({
+    setSubmitMode(false);
+  };
+
+  const saveEducationItem = (e) => {
+    e.preventDefault();
+    setEducationDataArr(
+      educationDataArr.map((item) => {
+        if (
+          item.educationExperienceID ===
+          educationData.currentlyEditingExperienceID
+        ) {
+          return {
+            ...educationData,
+            educationExperienceID: educationData.currentlyEditingExperienceID,
+            currentlyEditingExperienceID: "",
+
+            startDate: formatStartDate(
+              educationData.dateOfStudyInput.startDate
+            ),
+            endDate: formatEndDate(educationData.dateOfStudyInput.endDate),
+          };
+        } else {
+          return item;
+        }
+      })
+    );
+
+    setEducationData({
       schoolNameInput: {
-        ...this.state.schoolNameInput,
+        schoolName: "",
       },
       titleOfStudyInput: {
-        ...this.state.titleOfStudyInput,
+        titleOfStudy: "",
       },
       dateOfStudyInput: {
-        ...this.state.dateOfStudyInput,
+        startDate: "",
+        endDate: "",
       },
-      id: uniqid(),
-      targetEducationObjID: this.state.targetEducationObjID,
-      educationDataArr: this.state.educationDataArr,
-      editMode: this.state.editMode,
-      submitMode: true,
+      currentlyEditingExperienceID: educationData.currentlyEditingExperienceID,
     });
-  }
 
-  editEducationInfo(educationItem) {
-    const targetEducationItem = this.state.educationDataArr.find((item) => {
-      return item.id === educationItem.id;
+    setEditMode(false);
+  };
+
+  const addEducationExperience = () => {
+    setEducationData({
+      ...educationData,
+      educationExperienceID: uniqid(),
+    });
+    setSubmitMode(true);
+  };
+
+  const editEducationInfo = (educationItem) => {
+    const targetEducationItem = educationDataArr.find((item) => {
+      return item.educationExperienceID === educationItem.educationExperienceID;
     });
 
     const parsedStartDate =
@@ -232,265 +195,228 @@ export class EducationExperienceSection extends Component {
         ? parsedEndDate
         : format(parsedEndDate, "yyyy-MM-dd");
 
-    this.setState({
+    setEducationData({
       schoolNameInput: {
-        schoolName: targetEducationItem.schoolName,
+        schoolName: targetEducationItem.schoolNameInput.schoolName,
       },
       titleOfStudyInput: {
-        titleOfStudy: targetEducationItem.titleOfStudy,
+        titleOfStudy: targetEducationItem.titleOfStudyInput.titleOfStudy,
       },
       dateOfStudyInput: {
         startDate: startDate,
         endDate: endDate,
       },
-      id: this.state.id,
-      targetEducationObjID: targetEducationItem.id,
-      educationDataArr: this.state.educationDataArr,
-      editMode: true,
-      submitMode: this.state.submitMode,
+      educationExperienceID: "",
+      currentlyEditingExperienceID: targetEducationItem.educationExperienceID,
     });
+
+    setEditMode(true);
+  };
+
+  if (editMode === true) {
+    return (
+      <EditView
+        schoolNameInput={educationData.schoolNameInput}
+        dateOfStudyInput={educationData.dateOfStudyInput}
+        titleOfStudyInput={educationData.titleOfStudyInput}
+        handleSchoolNameChange={handleSchoolNameChange}
+        handleTitleOfStudyChange={handleTitleOfStudyChange}
+        handleStartDateOfStudy={handleStartDateOfStudy}
+        handleEndDateOfStudy={handleEndDateOfStudy}
+        saveEducationItem={saveEducationItem}
+      ></EditView>
+    );
+  } else if (submitMode === true) {
+    return (
+      <SubmitView
+        schoolNameInput={educationData.schoolNameInput}
+        dateOfStudyInput={educationData.dateOfStudyInput}
+        titleOfStudyInput={educationData.titleOfStudyInput}
+        handleSchoolNameChange={handleSchoolNameChange}
+        handleTitleOfStudyChange={handleTitleOfStudyChange}
+        handleStartDateOfStudy={handleStartDateOfStudy}
+        handleEndDateOfStudy={handleEndDateOfStudy}
+        submitEducationInfo={submitEducationInfo}
+      ></SubmitView>
+    );
   }
+  if (editMode === false && educationDataArr.length !== 0) {
+    return (
+      <ReadView
+        educationDataArr={educationDataArr}
+        addEducationExperience={addEducationExperience}
+        editEducationInfo={editEducationInfo}
+        formatStartDate={formatStartDate}
+        formatEndDate={formatEndDate}
+      ></ReadView>
+    );
+  }
+};
 
-  render() {
-    const {
-      schoolNameInput,
-      dateOfStudyInput,
-      titleOfStudyInput,
-      editMode,
-      submitMode,
-      educationDataArr,
-    } = this.state;
+const EditView = ({
+  schoolNameInput,
+  dateOfStudyInput,
+  titleOfStudyInput,
+  handleSchoolNameChange,
+  handleTitleOfStudyChange,
+  handleStartDateOfStudy,
+  handleEndDateOfStudy,
+  saveEducationItem,
+}) => {
+  return (
+    <>
+      <div style={{ marginBottom: "24px" }}>
+        <form
+          noValidate
+          onSubmit={saveEducationItem}
+          className="educationExperienceForm"
+        >
+          <div className="schoolName">
+            <label>Enter your school/University Name:</label>
+            <input
+              placeholder="Harvard"
+              type="text"
+              name="schoolName"
+              value={schoolNameInput.schoolName}
+              onChange={handleSchoolNameChange}
+              required
+            ></input>
+          </div>
 
-    if (editMode === true) {
-      return (
-        <EditView
-          schoolNameInput={schoolNameInput}
-          dateOfStudyInput={dateOfStudyInput}
-          titleOfStudyInput={titleOfStudyInput}
-          handleSchoolNameChange={this.handleSchoolNameChange}
-          handleTitleOfStudyChange={this.handleTitleOfStudyChange}
-          handleStartDateOfStudy={this.handleStartDateOfStudy}
-          handleEndDateOfStudy={this.handleEndDateOfStudy}
-          saveEducationItem={this.saveEducationItem}
-        ></EditView>
-      );
-    } else if (submitMode === true) {
-      return (
-        <SubmitView
-          schoolNameInput={schoolNameInput}
-          dateOfStudyInput={dateOfStudyInput}
-          titleOfStudyInput={titleOfStudyInput}
-          handleSchoolNameChange={this.handleSchoolNameChange}
-          handleTitleOfStudyChange={this.handleTitleOfStudyChange}
-          handleStartDateOfStudy={this.handleStartDateOfStudy}
-          handleEndDateOfStudy={this.handleEndDateOfStudy}
-          submitEducationInfo={this.submitEducationInfo}
-        ></SubmitView>
-      );
-    }
-    if (editMode === false && educationDataArr.length !== 0) {
-      return (
-        <ReadView
+          <div className="titleOfStudy">
+            <label>Enter your title of study</label>
+            <input
+              placeholder="B.S Economics"
+              name="titleOfStudy"
+              type="titleOfStudy"
+              value={titleOfStudyInput.titleOfStudy}
+              onChange={handleTitleOfStudyChange}
+            ></input>
+          </div>
+
+          <div className="startDate">
+            <label>Enter the date you started</label>
+            <input
+              placeholder="07/06/2005"
+              type="date"
+              name="startDate"
+              value={dateOfStudyInput.startDate}
+              onChange={handleStartDateOfStudy}
+            ></input>
+          </div>
+
+          <div className="endDate">
+            <label>Enter the date you ended</label>
+            <input
+              placeholder="11/06/2005"
+              type="date"
+              name="endDate"
+              value={dateOfStudyInput.endDate}
+              onChange={handleEndDateOfStudy}
+            ></input>
+          </div>
+          <button className="saveBtn" type="submit">
+            Save
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
+
+const SubmitView = ({
+  schoolNameInput,
+  dateOfStudyInput,
+  titleOfStudyInput,
+  handleSchoolNameChange,
+  handleTitleOfStudyChange,
+  handleStartDateOfStudy,
+  handleEndDateOfStudy,
+  submitEducationInfo,
+}) => {
+  return (
+    <>
+      <div style={{ marginBottom: "24px" }}>
+        <form
+          noValidate
+          onSubmit={submitEducationInfo}
+          className="educationExperienceForm"
+        >
+          <div className="schoolName">
+            <label>Enter your school/University Name:</label>
+            <input
+              placeholder="Harvard"
+              type="text"
+              name="schoolName"
+              value={schoolNameInput.schoolName}
+              onChange={handleSchoolNameChange}
+              required
+            ></input>
+          </div>
+
+          <div className="titleOfStudy">
+            <label>Enter your title of study</label>
+            <input
+              placeholder="B.S Economics"
+              name="titleOfStudy"
+              type="titleOfStudy"
+              value={titleOfStudyInput.titleOfStudy}
+              onChange={handleTitleOfStudyChange}
+            ></input>
+          </div>
+
+          <div className="startDate">
+            <label>Enter the date you started</label>
+            <input
+              placeholder="07/06/2005"
+              type="date"
+              name="startDate"
+              value={dateOfStudyInput.startDate}
+              onChange={handleStartDateOfStudy}
+            ></input>
+          </div>
+
+          <div className="endDate">
+            <label>Enter the date you ended</label>
+            <input
+              placeholder="11/06/2005"
+              type="date"
+              name="endDate"
+              value={dateOfStudyInput.endDate}
+              onChange={handleEndDateOfStudy}
+            ></input>
+          </div>
+          <button className="submitBtn" style={{ width: "70px" }} type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
+
+const ReadView = ({
+  educationDataArr,
+  editEducationInfo,
+  addEducationExperience,
+}) => {
+  return (
+    <>
+      <div className="readViewEduationContainer">
+        <AddEducationButton
           educationDataArr={educationDataArr}
-          addEducationExperience={this.addEducationExperience}
-          editEducationInfo={this.editEducationInfo}
-          formatStartDate={this.formatStartDate}
-          formatEndDate={this.formatEndDate}
-        ></ReadView>
-      );
-    }
-  }
-}
-
-export class EditView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {
-      schoolNameInput,
-      dateOfStudyInput,
-      titleOfStudyInput,
-      handleSchoolNameChange,
-      handleTitleOfStudyChange,
-      handleStartDateOfStudy,
-      handleEndDateOfStudy,
-      saveEducationItem,
-    } = this.props;
-
-    return (
-      <>
-        <div style={{ marginBottom: "24px" }}>
-          <form
-            noValidate
-            onSubmit={saveEducationItem}
-            className="educationExperienceForm"
-          >
-            <div className="schoolName">
-              <label>Enter your school/University Name:</label>
-              <input
-                placeholder="Harvard"
-                type="text"
-                name="schoolName"
-                value={schoolNameInput.schoolName}
-                onChange={handleSchoolNameChange}
-                required
-              ></input>
-            </div>
-
-            <div className="titleOfStudy">
-              <label>Enter your title of study</label>
-              <input
-                placeholder="B.S Economics"
-                name="titleOfStudy"
-                type="titleOfStudy"
-                value={titleOfStudyInput.titleOfStudy}
-                onChange={handleTitleOfStudyChange}
-              ></input>
-            </div>
-
-            <div className="startDate">
-              <label>Enter the date you started</label>
-              <input
-                placeholder="07/06/2005"
-                type="date"
-                name="startDate"
-                value={dateOfStudyInput.startDate}
-                onChange={handleStartDateOfStudy}
-              ></input>
-            </div>
-
-            <div className="endDate">
-              <label>Enter the date you ended</label>
-              <input
-                placeholder="11/06/2005"
-                type="date"
-                name="endDate"
-                value={dateOfStudyInput.endDate}
-                onChange={handleEndDateOfStudy}
-              ></input>
-            </div>
-            <button style={{ width: "70px" }} type="submit">
-              Save
-            </button>
-          </form>
-        </div>
-      </>
-    );
-  }
-}
-
-export class SubmitView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {
-      schoolNameInput,
-      dateOfStudyInput,
-      titleOfStudyInput,
-      handleSchoolNameChange,
-      handleTitleOfStudyChange,
-      handleStartDateOfStudy,
-      handleEndDateOfStudy,
-      submitEducationInfo,
-    } = this.props;
-
-    return (
-      <>
-        <div style={{ marginBottom: "24px" }}>
-          <form
-            noValidate
-            onSubmit={submitEducationInfo}
-            className="educationExperienceForm"
-          >
-            <div className="schoolName">
-              <label>Enter your school/University Name:</label>
-              <input
-                placeholder="Harvard"
-                type="text"
-                name="schoolName"
-                value={schoolNameInput.schoolName}
-                onChange={handleSchoolNameChange}
-                required
-              ></input>
-            </div>
-
-            <div className="titleOfStudy">
-              <label>Enter your title of study</label>
-              <input
-                placeholder="B.S Economics"
-                name="titleOfStudy"
-                type="titleOfStudy"
-                value={titleOfStudyInput.titleOfStudy}
-                onChange={handleTitleOfStudyChange}
-              ></input>
-            </div>
-
-            <div className="startDate">
-              <label>Enter the date you started</label>
-              <input
-                placeholder="07/06/2005"
-                type="date"
-                name="startDate"
-                value={dateOfStudyInput.startDate}
-                onChange={handleStartDateOfStudy}
-              ></input>
-            </div>
-
-            <div className="endDate">
-              <label>Enter the date you ended</label>
-              <input
-                placeholder="11/06/2005"
-                type="date"
-                name="endDate"
-                value={dateOfStudyInput.endDate}
-                onChange={handleEndDateOfStudy}
-              ></input>
-            </div>
-            <button className="submitBtn" style={{ width: "70px" }} type="submit">
-              Submit
-            </button>
-          </form>
-        </div>
-      </>
-    );
-  }
-}
-
-class ReadView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {
-      educationDataArr,
-      editEducationInfo,
-      formatStartDate,
-      formatEndDate,
-      addEducationExperience,
-    } = this.props;
-
-    return (
-      <>
-        <div className="readViewEduationContainer">
-          <AddEducationButton
-            educationDataArr={educationDataArr}
-            addEducationExperience={addEducationExperience}
-          />
-
-          {educationDataArr.map((educationItem) => (
-            <div className="readViewEducation" key={educationItem.id}>
+          addEducationExperience={addEducationExperience}
+        />
+        {educationDataArr.map((educationItem) => (
+          <div className="readViewEducation" key={uniqid()}>
+            <div className="readViewObj">
               <div className="schoolName">
-                <h2>School Name</h2>
-                <p>{educationItem.schoolName}</p>
+                <h3>School Name</h3>
+                <p>{educationItem.schoolNameInput.schoolName}</p>
               </div>
               <div className="titleOfStudy">
                 <h3>Title of Study</h3>
-                <p>{educationItem.titleOfStudy}</p>
+                <p>{educationItem.titleOfStudyInput.titleOfStudy}</p>
               </div>
               <div className="startDate">
                 <h3>Start Date</h3>
@@ -500,36 +426,25 @@ class ReadView extends Component {
                 <h3>End Date</h3>
                 <p>{educationItem.endDate}</p>
               </div>
-              <button
-                style={{ width: "40%" }}
-                onClick={() => editEducationInfo(educationItem)}
-              >
-                Edit
-              </button>
             </div>
-          ))}
-        </div>
+            <button onClick={() => editEducationInfo(educationItem)}>
+              Edit
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const AddEducationButton = ({ educationDataArr, addEducationExperience }) => {
+  if (educationDataArr.length === 0) {
+    return null;
+  } else if (educationDataArr.length !== 0) {
+    return (
+      <>
+        <button onClick={addEducationExperience}>Add education</button>
       </>
     );
   }
-}
-
-class AddEducationButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { educationDataArr, addEducationExperience } = this.props;
-
-    if (educationDataArr.length === 0) {
-      return null;
-    } else if (educationDataArr.length !== 0) {
-      return (
-        <>
-          <button onClick={addEducationExperience}>Add education</button>
-        </>
-      );
-    }
-  }
-}
+};

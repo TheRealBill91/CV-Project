@@ -1,8 +1,13 @@
+/* Apply border box to entire document */
+* {
+  box-sizing: border-box;
+}
+
 .generalInfoForm {
   display: flex;
   gap: 27px;
   flex-wrap: wrap;
-  width: 70vw;
+  width: 75vw;
   flex-direction: column;
   align-items: center;
   margin: 12px;
@@ -17,12 +22,12 @@
 .phoneNumber {
   display: flex;
   gap: 10px;
-  width: 50%;
+  width: 80%;
   /* outline: 1px solid black; */
   margin-right: 0;
   flex-direction: column;
   border-radius: 8px 8px;
-  padding: 6px;
+  padding: 8px;
   background-color: #e1e1e1;
 }
 
@@ -46,6 +51,47 @@
 
 .submitBtn:hover {
   background-color: white;
+}
+
+.readViewGeneral {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0px;
+  border-radius: 8px 8px;
+  padding: 0px 0px 22px 0px;
+  background-color: rgb(194, 194, 194);
+  box-shadow: 0px 4px 4px rgba(149, 149, 149, 0.413);
+}
+
+.readViewGeneral > button {
+  width: 70px;
+  border: none;
+  padding: 8px;
+  border-radius: 4px 4px;
+  transition: background-color 0.2s ease-in-out;
+  color: black;
+  background-color: rgb(231, 231, 231);
+}
+
+.readViewGeneral > button:hover {
+  background-color: white;
+}
+
+.readViewObj {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+  width: 75vw;
+  justify-items: center;
+}
+
+.readViewContainer > .readViewObj > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
 }
 
 /* Start of readview styles */
