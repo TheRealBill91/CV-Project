@@ -1,49 +1,23 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import uniqid from "uniqid";
-import "../styles/GeneralInfo.css";
+import styles from "../styles/GeneralInfo.module.css";
 
 export const GeneralInfoSection = () => {
   const [generalData, setGeneralData] = useState({
-    nameInput: {
-      name: "",
-    },
-    emailInput: {
-      email: "",
-    },
-    phoneInput: {
-      phoneNum: "",
-    },
-
+    name: "",
+    email: "",
+    phoneNum: "",
     id: uniqid(),
   });
 
   const [generalDataArr, setGeneralDataArr] = useState([]);
   const [editMode, setEditMode] = useState(true);
 
-  const handleNameChange = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setGeneralData({
       ...generalData,
-      nameInput: {
-        name: e.target.value,
-      },
-    });
-  };
-
-  const handleEmailChange = (e) => {
-    setGeneralData({
-      ...generalData,
-      emailInput: {
-        email: e.target.value,
-      },
-    });
-  };
-
-  const handlePhoneNumChange = (e) => {
-    setGeneralData({
-      ...generalData,
-      phoneInput: {
-        phoneNum: e.target.value,
-      },
+      [name]: value,
     });
   };
 
@@ -52,22 +26,16 @@ export const GeneralInfoSection = () => {
 
     setGeneralDataArr([
       ...generalDataArr,
-      generalData.nameInput.name,
-      generalData.emailInput.email,
-      generalData.phoneInput.phoneNum,
+      generalData.name,
+      generalData.email,
+      generalData.phoneNum,
       generalData.id,
     ]);
 
     setGeneralData({
-      nameInput: {
-        name: "",
-      },
-      emailInput: {
-        email: "",
-      },
-      phoneInput: {
-        phoneNum: "",
-      },
+      name: "",
+      email: "",
+      phoneNum: "",
       id: uniqid(),
     });
 
@@ -76,15 +44,9 @@ export const GeneralInfoSection = () => {
 
   const editGeneralInfo = () => {
     setGeneralData({
-      nameInput: {
-        name: generalDataArr[0],
-      },
-      emailInput: {
-        email: generalDataArr[1],
-      },
-      phoneInput: {
-        phoneNum: generalDataArr[2],
-      },
+      name: generalDataArr[0],
+      email: generalDataArr[1],
+      phoneNum: generalDataArr[2],
       id: generalDataArr[3],
     });
 
@@ -95,10 +57,8 @@ export const GeneralInfoSection = () => {
   if (editMode === true) {
     return (
       <EditView
-        generalInput={generalData}
-        handleNameChange={handleNameChange}
-        handleEmailChange={handleEmailChange}
-        handlePhoneNumChange={handlePhoneNumChange}
+        generalData={generalData}
+        handleInputChange={handleInputChange}
         submitGeneralInfo={submitGeneralInfo}
       />
     );
@@ -112,55 +72,49 @@ export const GeneralInfoSection = () => {
   }
 };
 
-const EditView = ({
-  generalInput,
-  handleNameChange,
-  handleEmailChange,
-  handlePhoneNumChange,
-  submitGeneralInfo,
-}) => {
+const EditView = ({ generalData, handleInputChange, submitGeneralInfo }) => {
   return (
     <>
       <div style={{ marginBottom: "24px" }}>
         <form
           noValidate
           onSubmit={submitGeneralInfo}
-          className="generalInfoForm"
+          className={styles.generalInfoForm}
         >
-          <div className="fullName">
+          <div className={styles.fullName}>
             <label>Enter full name:</label>
             <input
               placeholder="John Appleseed"
               type="text"
-              name="fullName"
-              value={generalInput.nameInput.name}
-              onChange={handleNameChange}
+              name="name"
+              value={generalData.name}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="email">
+          <div className={styles.email}>
             <label>Enter your email address:</label>
             <input
               placeholder="JohnAppleseed@aol.com"
               name="email"
               type="email"
-              value={generalInput.emailInput.email}
-              onChange={handleEmailChange}
+              value={generalData.email}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="phoneNumber">
+          <div className={styles.phoneNumber}>
             <label>Enter your phone number:</label>
             <input
               placeholder="(495)-564-4034"
               type="tel"
-              name="telephone"
+              name="phoneNum"
               pattern="\(\d{3}\)\s\d{3}-\d{4}"
-              value={generalInput.phoneInput.phoneNum}
-              onChange={handlePhoneNumChange}
+              value={generalData.phoneNum}
+              onChange={handleInputChange}
             ></input>
           </div>
-          <button className="submitBtn" type="submit">
+          <button className={styles.submitBtn} type="submit">
             Submit
           </button>
         </form>
@@ -172,21 +126,17 @@ const EditView = ({
 const ReadView = ({ generalDataArr, editGeneralInfo }) => {
   return (
     <>
-      <div className="readViewContainer">
-        <div className="readViewGeneral">
-          <div className="readViewObj">
-            <div className="fullName">
-              <h2>Name</h2>
-              <p>{generalDataArr[0]}</p>
-            </div>
-
-            <div className="email">
-              <h3>Email</h3>
+      <div className={styles.readViewContainer}>
+        <div className={styles.readViewGeneral}>
+          <div className={styles.fullName}>
+            <h2>{generalDataArr[0]}</h2>
+          </div>
+          <div className={styles.readViewObj}>
+            <div className={styles.email}>
               <p>{generalDataArr[1]}</p>
             </div>
 
-            <div className="phoneNumber">
-              <h3>Phone Number</h3>
+            <div className={styles.phoneNumber}>
               <p>{generalDataArr[2]}</p>
             </div>
           </div>

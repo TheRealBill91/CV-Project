@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+:root {
+  --default-font: "Open Sans", sans-serif, "Helvetica Neue", Helvetica, Arial;
+}
+
 /* Apply border box to entire document */
 * {
   box-sizing: border-box;
@@ -15,9 +21,27 @@
   border-radius: 12px 12px;
   padding: 22px;
   box-shadow: 0px 4px 4px rgba(149, 149, 149, 0.413);
+  font-family: var(--default-font);
 }
 
-.fullName,
+.generalInfoForm > div {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+  background-color: #e1e1e1;
+  /* outline: 1px solid black; */
+  margin-right: 0;
+  flex-direction: column;
+  border-radius: 8px 8px;
+  padding: 8px;
+  text-align: center;
+  min-width: 225px;
+}
+
+.generalInfoForm  label {
+  align-self: flex-start;
+}
+
 .email,
 .phoneNumber {
   display: flex;
@@ -28,7 +52,33 @@
   flex-direction: column;
   border-radius: 8px 8px;
   padding: 8px;
-  background-color: #e1e1e1;
+  text-align: center;
+  min-width: 225px;
+}
+
+.fullName {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+  /* outline: 1px solid black; */
+  margin-right: 0;
+  flex-direction: column;
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px 8px;
+  /* background-color: #e1e1e1; */
+  min-width: 225px;
+}
+
+.readViewGeneral .fullName {
+  border-bottom: 2px solid black;
+  border-radius: 0px;
+  margin-bottom: 20px;
+}
+
+.readViewGeneral .phoneNumber,
+.readViewGeneral .email {
+  width: 100%;
 }
 
 .fullName input,
@@ -36,7 +86,7 @@
 .phoneNumber input {
   border: none;
   border-radius: 4px 4px;
-  padding: 4px;
+  padding: 6px;
 }
 
 .submitBtn {
@@ -58,21 +108,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 16px 0px;
+  margin: 17px 0px;
   border-radius: 8px 8px;
-  padding: 0px 0px 22px 0px;
-  background-color: rgb(194, 194, 194);
-  box-shadow: 0px 4px 4px rgba(149, 149, 149, 0.413);
+  padding: 0px 0px 18px 0px;
+  background-color: rgb(226 226 226 / 20%);
+  /* box-shadow: 0px 4px 4px rgba(149, 149, 149, 0.413); */
+  font-family: var(--default-font);
+  width: 75vw;
 }
 
 .readViewGeneral > button {
-  width: 70px;
+  width: 60px;
   border: none;
   padding: 8px;
   border-radius: 4px 4px;
   transition: background-color 0.2s ease-in-out;
   color: black;
   background-color: rgb(231, 231, 231);
+  margin-top: 12px;
+  align-self: flex-end;
+  margin-right: 14px;
 }
 
 .readViewGeneral > button:hover {
@@ -81,10 +136,11 @@
 
 .readViewObj {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
-  width: 75vw;
+  width: 80%;
   justify-items: center;
+  margin-bottom: 12px;
 }
 
 .readViewContainer > .readViewObj > div {

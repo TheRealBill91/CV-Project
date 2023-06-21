@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uniqid from "uniqid";
 import { parseISO, format, parse } from "date-fns";
-import "../styles/EducationExperience.css";
+import Icon from "@mdi/react";
+import { mdiPlusCircle } from "@mdi/js";
+import styles from "../styles/EducationExperience.module.css";
 
 export const EducationExperienceSection = () => {
   const [educationData, setEducationData] = useState({
-    schoolNameInput: {
-      schoolName: "",
-    },
-    titleOfStudyInput: {
-      titleOfStudy: "",
-    },
-    dateOfStudyInput: {
-      startDate: "",
-      endDate: "",
-    },
-
+    schoolName: "",
+    titleOfStudy: "",
+    startDate: "",
+    endDate: "",
     currentlyEditingExperienceID: "",
     educationExperienceID: uniqid(),
   });
@@ -24,31 +19,11 @@ export const EducationExperienceSection = () => {
   const [editMode, setEditMode] = useState(false);
   const [submitMode, setSubmitMode] = useState(true);
 
-  const handleSchoolNameChange = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setEducationData({
       ...educationData,
-      schoolNameInput: {
-        schoolName: e.target.value,
-      },
-    });
-  };
-
-  const handleTitleOfStudyChange = (e) => {
-    setEducationData({
-      ...educationData,
-      titleOfStudyInput: {
-        titleOfStudy: e.target.value,
-      },
-    });
-  };
-
-  const handleStartDateOfStudy = (e) => {
-    setEducationData({
-      ...educationData,
-      dateOfStudyInput: {
-        startDate: e.target.value,
-        endDate: educationData.dateOfStudyInput.endDate,
-      },
+      [name]: value,
     });
   };
 
@@ -65,16 +40,6 @@ export const EducationExperienceSection = () => {
     }
   };
 
-  const handleEndDateOfStudy = (e) => {
-    setEducationData({
-      ...educationData,
-      dateOfStudyInput: {
-        startDate: educationData.dateOfStudyInput.startDate,
-        endDate: e.target.value,
-      },
-    });
-  };
-
   const formatEndDate = (endDate) => {
     if (endDate === "") {
       return endDate;
@@ -87,12 +52,8 @@ export const EducationExperienceSection = () => {
 
   const submitEducationInfo = (e) => {
     e.preventDefault();
-    const formattedStartDate = formatStartDate(
-      educationData.dateOfStudyInput.startDate
-    );
-    const formattedEndDate = formatEndDate(
-      educationData.dateOfStudyInput.endDate
-    );
+    const formattedStartDate = formatStartDate(educationData.startDate);
+    const formattedEndDate = formatEndDate(educationData.endDate);
 
     setEducationDataArr([
       ...educationDataArr,
@@ -104,16 +65,10 @@ export const EducationExperienceSection = () => {
     ]);
 
     setEducationData({
-      schoolNameInput: {
-        schoolName: "",
-      },
-      titleOfStudyInput: {
-        titleOfStudy: "",
-      },
-      dateOfStudyInput: {
-        startDate: "",
-        endDate: "",
-      },
+      schoolName: "",
+      titleOfStudy: "",
+      startDate: "",
+      endDate: "",
       educationExperienceID: uniqid(),
       currentlyEditingExperienceID: educationData.currentlyEditingExperienceID,
     });
@@ -133,11 +88,8 @@ export const EducationExperienceSection = () => {
             ...educationData,
             educationExperienceID: educationData.currentlyEditingExperienceID,
             currentlyEditingExperienceID: "",
-
-            startDate: formatStartDate(
-              educationData.dateOfStudyInput.startDate
-            ),
-            endDate: formatEndDate(educationData.dateOfStudyInput.endDate),
+            startDate: formatStartDate(educationData.startDate),
+            endDate: formatEndDate(educationData.endDate),
           };
         } else {
           return item;
@@ -146,16 +98,10 @@ export const EducationExperienceSection = () => {
     );
 
     setEducationData({
-      schoolNameInput: {
-        schoolName: "",
-      },
-      titleOfStudyInput: {
-        titleOfStudy: "",
-      },
-      dateOfStudyInput: {
-        startDate: "",
-        endDate: "",
-      },
+      schoolName: "",
+      titleOfStudy: "",
+      startDate: "",
+      endDate: "",
       currentlyEditingExperienceID: educationData.currentlyEditingExperienceID,
     });
 
@@ -196,16 +142,10 @@ export const EducationExperienceSection = () => {
         : format(parsedEndDate, "yyyy-MM-dd");
 
     setEducationData({
-      schoolNameInput: {
-        schoolName: targetEducationItem.schoolNameInput.schoolName,
-      },
-      titleOfStudyInput: {
-        titleOfStudy: targetEducationItem.titleOfStudyInput.titleOfStudy,
-      },
-      dateOfStudyInput: {
-        startDate: startDate,
-        endDate: endDate,
-      },
+      schoolName: targetEducationItem.schoolName,
+      titleOfStudy: targetEducationItem.titleOfStudy,
+      startDate: startDate,
+      endDate: endDate,
       educationExperienceID: "",
       currentlyEditingExperienceID: targetEducationItem.educationExperienceID,
     });
@@ -216,26 +156,16 @@ export const EducationExperienceSection = () => {
   if (editMode === true) {
     return (
       <EditView
-        schoolNameInput={educationData.schoolNameInput}
-        dateOfStudyInput={educationData.dateOfStudyInput}
-        titleOfStudyInput={educationData.titleOfStudyInput}
-        handleSchoolNameChange={handleSchoolNameChange}
-        handleTitleOfStudyChange={handleTitleOfStudyChange}
-        handleStartDateOfStudy={handleStartDateOfStudy}
-        handleEndDateOfStudy={handleEndDateOfStudy}
+        educationData={educationData}
+        handleInputChange={handleInputChange}
         saveEducationItem={saveEducationItem}
       ></EditView>
     );
   } else if (submitMode === true) {
     return (
       <SubmitView
-        schoolNameInput={educationData.schoolNameInput}
-        dateOfStudyInput={educationData.dateOfStudyInput}
-        titleOfStudyInput={educationData.titleOfStudyInput}
-        handleSchoolNameChange={handleSchoolNameChange}
-        handleTitleOfStudyChange={handleTitleOfStudyChange}
-        handleStartDateOfStudy={handleStartDateOfStudy}
-        handleEndDateOfStudy={handleEndDateOfStudy}
+        educationData={educationData}
+        handleInputChange={handleInputChange}
         submitEducationInfo={submitEducationInfo}
       ></SubmitView>
     );
@@ -253,69 +183,60 @@ export const EducationExperienceSection = () => {
   }
 };
 
-const EditView = ({
-  schoolNameInput,
-  dateOfStudyInput,
-  titleOfStudyInput,
-  handleSchoolNameChange,
-  handleTitleOfStudyChange,
-  handleStartDateOfStudy,
-  handleEndDateOfStudy,
-  saveEducationItem,
-}) => {
+const EditView = ({ educationData, handleInputChange, saveEducationItem }) => {
   return (
     <>
       <div style={{ marginBottom: "24px" }}>
         <form
           noValidate
           onSubmit={saveEducationItem}
-          className="educationExperienceForm"
+          className={styles.educationExperienceForm}
         >
-          <div className="schoolName">
+          <div className={styles.schoolName}>
             <label>Enter your school/University Name:</label>
             <input
               placeholder="Harvard"
               type="text"
               name="schoolName"
-              value={schoolNameInput.schoolName}
-              onChange={handleSchoolNameChange}
+              value={educationData.schoolName}
+              onChange={handleInputChange}
               required
             ></input>
           </div>
 
-          <div className="titleOfStudy">
+          <div className={styles.titleOfStudy}>
             <label>Enter your title of study</label>
             <input
               placeholder="B.S Economics"
               name="titleOfStudy"
               type="titleOfStudy"
-              value={titleOfStudyInput.titleOfStudy}
-              onChange={handleTitleOfStudyChange}
+              value={educationData.titleOfStudy}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="startDate">
+          <div className={styles.startDate}>
             <label>Enter the date you started</label>
             <input
               placeholder="07/06/2005"
               type="date"
               name="startDate"
-              value={dateOfStudyInput.startDate}
-              onChange={handleStartDateOfStudy}
+              value={educationData.startDate}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="endDate">
+          <div className={styles.endDate}>
             <label>Enter the date you ended</label>
             <input
               placeholder="11/06/2005"
               type="date"
               name="endDate"
-              value={dateOfStudyInput.endDate}
-              onChange={handleEndDateOfStudy}
+              value={educationData.endDate}
+              onChange={handleInputChange}
             ></input>
           </div>
-          <button className="saveBtn" type="submit">
+          <button className={styles.saveBtn} type="submit">
             Save
           </button>
         </form>
@@ -325,13 +246,8 @@ const EditView = ({
 };
 
 const SubmitView = ({
-  schoolNameInput,
-  dateOfStudyInput,
-  titleOfStudyInput,
-  handleSchoolNameChange,
-  handleTitleOfStudyChange,
-  handleStartDateOfStudy,
-  handleEndDateOfStudy,
+  educationData,
+  handleInputChange,
   submitEducationInfo,
 }) => {
   return (
@@ -340,53 +256,57 @@ const SubmitView = ({
         <form
           noValidate
           onSubmit={submitEducationInfo}
-          className="educationExperienceForm"
+          className={styles.educationExperienceForm}
         >
-          <div className="schoolName">
+          <div className={styles.schoolName}>
             <label>Enter your school/University Name:</label>
             <input
               placeholder="Harvard"
               type="text"
               name="schoolName"
-              value={schoolNameInput.schoolName}
-              onChange={handleSchoolNameChange}
+              value={educationData.schoolName}
+              onChange={handleInputChange}
               required
             ></input>
           </div>
 
-          <div className="titleOfStudy">
+          <div className={styles.titleOfStudy}>
             <label>Enter your title of study</label>
             <input
               placeholder="B.S Economics"
               name="titleOfStudy"
               type="titleOfStudy"
-              value={titleOfStudyInput.titleOfStudy}
-              onChange={handleTitleOfStudyChange}
+              value={educationData.titleOfStudy}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="startDate">
+          <div className={styles.startDate}>
             <label>Enter the date you started</label>
             <input
               placeholder="07/06/2005"
               type="date"
               name="startDate"
-              value={dateOfStudyInput.startDate}
-              onChange={handleStartDateOfStudy}
+              value={educationData.startDate}
+              onChange={handleInputChange}
             ></input>
           </div>
 
-          <div className="endDate">
+          <div className={styles.startDate}>
             <label>Enter the date you ended</label>
             <input
               placeholder="11/06/2005"
               type="date"
               name="endDate"
-              value={dateOfStudyInput.endDate}
-              onChange={handleEndDateOfStudy}
+              value={educationData.endDate}
+              onChange={handleInputChange}
             ></input>
           </div>
-          <button className="submitBtn" style={{ width: "70px" }} type="submit">
+          <button
+            className={styles.submitBtn}
+            style={{ width: "70px" }}
+            type="submit"
+          >
             Submit
           </button>
         </form>
@@ -402,29 +322,30 @@ const ReadView = ({
 }) => {
   return (
     <>
-      <div className="readViewEduationContainer">
+      <div className={styles.readViewEduationContainer}>
         <AddEducationButton
           educationDataArr={educationDataArr}
           addEducationExperience={addEducationExperience}
         />
         {educationDataArr.map((educationItem) => (
-          <div className="readViewEducation" key={uniqid()}>
-            <div className="readViewObj">
-              <div className="schoolName">
+          <div
+            className={styles.readViewEducation}
+            key={educationItem.educationExperienceID}
+          >
+            <div className={styles.readViewObj}>
+              <div className={styles.schoolName}>
                 <h3>School Name</h3>
-                <p>{educationItem.schoolNameInput.schoolName}</p>
+                <p>{educationItem.schoolName}</p>
               </div>
-              <div className="titleOfStudy">
+              <div className={styles.titleOfStudy}>
                 <h3>Title of Study</h3>
-                <p>{educationItem.titleOfStudyInput.titleOfStudy}</p>
+                <p>{educationItem.titleOfStudy}</p>
               </div>
-              <div className="startDate">
-                <h3>Start Date</h3>
-                <p>{educationItem.startDate}</p>
-              </div>
-              <div className="endDate">
-                <h3>End Date</h3>
-                <p>{educationItem.endDate}</p>
+              <div className={styles.startDate}>
+                <h3>Period of enrollment</h3>
+                <p>
+                  {educationItem.startDate} - {educationItem.endDate}
+                </p>
               </div>
             </div>
             <button onClick={() => editEducationInfo(educationItem)}>
@@ -443,7 +364,13 @@ const AddEducationButton = ({ educationDataArr, addEducationExperience }) => {
   } else if (educationDataArr.length !== 0) {
     return (
       <>
-        <button onClick={addEducationExperience}>Add education</button>
+        <button
+          className={styles.addEducationBtn}
+          onClick={addEducationExperience}
+        >
+          <Icon path={mdiPlusCircle} size={1.2} />
+          Add education
+        </button>
       </>
     );
   }

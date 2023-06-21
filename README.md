@@ -2,7 +2,7 @@
 
 ## About
 
-This is a small CV application built as part of the Odin Project curriculum. The project focuses on creating a React application and implementing class components, and it demonstrates effective use of state and props.
+This is a small CV application built as part of the Odin Project curriculum. The project focuses on creating a React application and implementing functional components, and it demonstrates effective use of state and props.
 
 ## Features
 
@@ -27,4 +27,5 @@ This is a small CV application built as part of the Odin Project curriculum. The
 - [React](https://react.dev/)
 - [create-react-app](https://create-react-app.dev/)
 - Git
+- [Icons](https://pictogrammers.com/)
 - [uniqid](https://www.npmjs.com/package/uniqid)

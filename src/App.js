@@ -10,7 +10,7 @@ const App = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        gap: "24px",
+        gap: "64px",
         padding: "24px",
         margin: "16px 0px",
       }}

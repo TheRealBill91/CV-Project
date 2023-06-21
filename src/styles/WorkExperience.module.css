@@ -1,6 +1,11 @@
+:root {
+  --default-font: "Open Sans", sans-serif, "Helvetica Neue", Helvetica, Arial;
+}
+
 .workExperienceForm {
   display: flex;
   gap: 27px;
+  font-family: var(--default-font);
   flex-wrap: wrap;
   width: 75vw;
   flex-direction: column;
@@ -19,27 +24,28 @@
 .workExperienceForm > .jobDescription {
   display: flex;
   gap: 10px;
-  width: 50%;
+  width: 80%;
   /* outline: 1px solid black; */
   margin-right: 0;
   flex-direction: column;
   border-radius: 8px 8px;
   padding: 8px;
   background-color: #e1e1e1;
+  min-width: 225px;
 }
 
-.readViewWorkExperience {
+/* .readViewEducation {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin: 16px 0px;
+  margin: 27px 0px;
   border-radius: 8px 8px;
-  padding: 0px 0px 22px 0px;
-  background-color: rgb(194, 194, 194);
+  padding: 0px 0px 18px 0px;
+  background-color: rgb(226 226 226 / 20%);
   box-shadow: 0px 4px 4px rgba(149, 149, 149, 0.413);
-}
+  border-bottom: 2px solid black;
+} */
 
 .readViewWorkExperience > button {
   width: 70px;
@@ -49,6 +55,8 @@
   transition: background-color 0.2s ease-in-out;
   color: black;
   background-color: rgb(231, 231, 231);
+  align-self: flex-end;
+  margin-right: 14px;
 }
 
 .readViewWorkExperience > button:hover {
@@ -72,24 +80,52 @@
 .readViewWorkContainer {
   display: flex;
   flex-direction: column;
+  font-family: var(--default-font);
   gap: 12px;
-  /* width: 80vw; */
+  width: 75vw;
   align-items: center;
   justify-content: center;
 }
 
+.readViewWorkExperience {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(226 226 226 / 20%);
+  padding: 10px;
+  border-radius: 8px 8px;
+}
+
 .readViewObj {
   display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+  gap: 6px;
+  /* grid-template-columns: repeat(auto-fit, minmax(164px, 1fr)); */
+  grid-auto-rows: auto;
   width: 75vw;
+  padding: 22px;
   justify-items: center;
 }
 
 .readViewObj > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
+  border-radius: 8px 8px;
+}
+
+.readViewObj > div:last-of-type > p {
+  width: 90%;
+  word-break: break-all;
+  white-space: normal;
+  overflow: auto;
+}
+
+.readViewObj h3 {
+  border-bottom: 1px solid black;
+  padding: 0px 0px 4px 0px;
+  align-self: flex-start;
 }
 
 .workExperienceForm > .jobDescription > textarea {
@@ -104,7 +140,7 @@
 .jobDescription textarea {
   border: none;
   border-radius: 4px 4px;
-  padding: 4px;
+  padding: 6px;
 }
 
 .submitBtn {
@@ -115,4 +151,32 @@
   transition: background-color 0.2s ease-in-out;
   color: black;
   background-color: rgb(231, 231, 231);
+}
+
+.addWorkExpBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 36%;
+  padding: 8px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px 8px;
+  background-color: #e7e7e7;
+  box-shadow: 0px 4px 4px rgb(193 193 193 / 51%);
+  align-self: center;
+  transition: color 0.1s ease-in-out;
+  color: rgb(50, 50, 50);
+  height: 52px;
+  min-width: 225px;
+}
+
+.addWorkExpBtn:hover,
+.addWorkExpBtn svg:hover {
+  color: black;
+}
+
+.addWorkExpBtn svg {
+  fill: rgb(50, 50, 50);
 }
